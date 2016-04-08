@@ -35,4 +35,8 @@ gulp.task('eslint', () => {
         .pipe(eslint.format());
 });
 
+gulp.task('test', () => {
+
+});
+
 gulp.task('default', ['start']);
