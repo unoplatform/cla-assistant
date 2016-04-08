@@ -21,6 +21,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "glob": "^7.0.3",
+    "gulp-env": "^0.4.0",
     "passport": "^0.3.2",
     "path": "^0.12.7",
     "x-frame-options": "^1.0.0"
