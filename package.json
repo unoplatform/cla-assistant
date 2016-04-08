@@ -1,7 +1,7 @@
 {
   "name": "cla-assistant",
   "author": "https://github.com/cla-assistant",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "homepage": "",
   "description": "Contributor licencse agreement",
   "keywords": [
@@ -19,67 +19,24 @@
   "bugs": "https://github.com/cla-assistant/cla-assistant/issues",
   "contributors": [],
   "dependencies": {
-    "array-sugar": "^1.2.2",
-    "async": "^1.5.2",
-    "body-parser": "^1.15.0",
-    "bower": "^1.7.7",
-    "bunyan": "^1.7.1",
-    "bunyan-slack": "0.0.10",
     "colors": "^1.1.2",
-    "cookie-parser": "^1.4.1",
-    "cookie-session": "^2.0.0-alpha.1",
-    "ejs": "^2.4.1",
-    "express": "^4.13.4",
-    "express-session": "^1.13.0",
-    "github": "^0.2.4",
-    "glob": "^6.0.4",
-    "merge": "^1.2.0",
-    "mongoose": "^4.4.6",
-    "node-sass": "^3.5.0-beta.1",
-    "node-sass-middleware": "^0.9.7",
-    "nodemailer": "^2.3.0",
-    "nodemailer-sendmail-transport": "^1.0.0",
-    "nodemailer-smtp-transport": "^2.4.1",
+    "glob": "^7.0.3",
     "passport": "^0.3.2",
-    "passport-github": "^1.1.0",
-    "q": "^1.4.1",
-    "request": "^2.69.0",
-    "socket.io": "^1.4.5",
-    "valid-url": "^1.0.9",
+    "path": "^0.12.7",
     "x-frame-options": "^1.0.0"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-coveralls": "1.0.0",
-    "grunt-eslint": "17.3.1",
-    "grunt-http": "2.0.0",
-    "grunt-karma": "^0.12.1",
-    "grunt-mocha-istanbul": "^3.0.1",
-    "grunt-mocha-test": "^0.12.7",
-    "grunt-scss-lint": "^0.3.8",
-    "istanbul": "^0.4.2",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-mocha": "^0.2.1",
-    "karma-ng-html2js-preprocessor": "~0.2.0",
-    "karma-phantomjs-launcher": "1.0.0",
-    "load-grunt-tasks": "^3.4.0",
-    "mkdirp": "0.5.1",
-    "mocha": "^2.4.5",
-    "rewire": "^2.5.1",
-    "should": "^8.2.2",
-    "sinon": "^1.17.3",
-    "supertest": "1.1.0"
+    "gulp-eslint": "^2.0.0",
+    "gulp-nodemon": "^2.0.6"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": ">=5.6.0"
   },
   "scripts": {
-    "start": "node app.js",
-    "postinstall": "bower install"
+    "start": "./node_modules/.bin/gulp start",
+    "debug": "./node_modules/.bin/gulp debug",
+    "restart": "./node_modules/.bin/gulp restart",
+    "lint": "./node_modules/.bin/gulp eslint",
+    "test": "./node_modules/.bin/gulp test"
   }
 }

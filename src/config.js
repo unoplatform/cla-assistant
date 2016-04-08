@@ -1,10 +1,11 @@
+'use strict';
 /**
  * Configuration Module
  *
  * @title config
  * @overview Configuration Module
  */
-var path = require('path');
+let path = require('path');
 
 module.exports = {
     server: {
