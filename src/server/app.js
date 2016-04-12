@@ -1,6 +1,7 @@
 'use strict';
 
 require('colors');
+let path = require('path');
 let express = require('express');
 let passport = require('passport');
 
@@ -41,6 +42,18 @@ app.use(require('cookie-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+app.use('/', require('./modules/authentication/api'));
+app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
+
+
+app.get('/', (req, res) => {
+    let filePath;
+	filePath = path.join(__dirname, '..', 'client', 'login.html');
+
+	res.setHeader('Last-Modified', (new Date()).toUTCString());
+	res.status(200).sendFile(filePath);
+});
 // custom mrepodleware
 // app.use('/api', require('./middleware/param'));
 // app.use('/github', require('./middleware/param'));
