@@ -20,7 +20,9 @@ function checkReturnTo(req, res, next) {
     authScope = req.query.admin === 'true' ? config.server.github.admin_scope : config.server.github.public_scope;
     let returnTo = req.query.admin === 'true' ? '/' : req.session.next;
     if (returnTo) {
-        req.session = req.session ? req.session : {};
+        if (!req.session) {
+            req.session = {};
+        }
         req.session.returnTo = returnTo;
     }
     passport.authenticate('github', {scope: authScope})(req, res, next);

@@ -5,9 +5,7 @@ class Authentication {
 
     }
     isAuthenticated(req, res, next) {
-        var freeApi = ['/api/cla/get', '/api/repo/check'];
-
-        if (req.isAuthenticated() || freeApi.indexOf(req.originalUrl) > -1) {
+        if (req.isAuthenticated() || config.server.free_api.indexOf(req.originalUrl) > -1) {
             return next();
         }
 

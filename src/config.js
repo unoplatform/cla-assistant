@@ -36,7 +36,7 @@ module.exports = {
         always_recompile_sass: process.env.NODE_ENV === 'production' ? false : true,
 
         http: {
-            protocol: process.env.PROTOCOL || 'http',
+            protocol: process.env.PROTOCOL || 'https',
             host: process.env.HOST || 'cla-assistant.io',
             port: process.env.HOST_PORT
         },
@@ -44,18 +44,6 @@ module.exports = {
         security: {
             sessionSecret: process.env.SESSION_SECRET || 'cla-assistant',
             cookieMaxAge: 60 * 60 * 1000
-        },
-
-        smtp: {
-            enabled: !!process.env.SMTP_HOST,
-            host: process.env.SMTP_HOST,
-            secure: (!!process.env.SMTP_SSL && process.env.SMTP_SSL === 'true'),
-            port: process.env.SMTP_PORT || 465,
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS
-            },
-            name: 'cla-assistant'
         },
 
         mongodb: {
@@ -75,6 +63,11 @@ module.exports = {
 
         api: [
             path.join(__dirname, 'server', 'api', '*.js')
+        ],
+
+        free_api: [
+            '/api/cla/get',
+            '/api/repo/check'
         ],
 
         webhooks: [

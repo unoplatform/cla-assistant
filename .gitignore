@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 src/bower
-output
+coverage/*
 venv
 .env
 .env.json
