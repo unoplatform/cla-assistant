@@ -6,23 +6,26 @@ let url = require('../helper/url');
 let passport = require('passport');
 let Strategy = require('passport-github2').Strategy;
 let merge = require('merge');
+let User = require('../user/user.model');
 
 passport.use(new Strategy({
         clientID: config.server.github.client,
         clientSecret: config.server.github.secret,
-        callbackURL: url.githubCallback()
+        callbackURL: url.githubCallback
     },
     function(accessToken, refreshToken, profile, done) {
-        // models.User.update({
-        //     uuid: profile.id
-        // }, {
-        //     name: profile.username,
-        //     email: '', // needs fix
-        //     token: accessToken
-        // }, {
-        //     upsert: true
-        // }, function() {
-        // });
+        let mails = profile.emails.map((obj) => { return obj.value; } ).toString();
+
+        User.update({
+            uuid: profile.id
+        }, {
+            name: profile.username,
+            emails: mails,
+            token: accessToken
+        }, {
+            upsert: true
+        }, function() {
+        });
 
         // repoService.getUserRepos({token: accessToken}, function(err, res){
         //     if (res && res.length > 0) {

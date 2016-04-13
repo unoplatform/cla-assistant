@@ -12,6 +12,19 @@ let passport = require('passport');
 global.config = require('./../config');
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
+// Bootstrap services
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+
+let mongoose = require('mongoose');
+mongoose.connect(config.server.mongodb.uri, {
+    server: {
+        socketOptions: {
+            keepAlive: 1
+        }
+    }
+});
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////
 // Express application
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +54,6 @@ app.use(require('cookie-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 app.use('/', require('./modules/authentication/api'));
 app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
