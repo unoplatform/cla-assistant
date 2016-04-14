@@ -1,32 +1,33 @@
-declare var claRepos:any;
-declare var repo:any;
+declare var claRepos: any;
+declare var repo: any;
 
 import {Component, Input} from 'angular2/core';
 import {CLARepoRow} from './row.template';
 import {ContributorsModal} from './contributors.modal';
 
 @Component({
+    directives: [CLARepoRow, ContributorsModal],
     selector: 'linked-repositories',
-    templateUrl:'/client/home/repo/repo.html',
-    directives:[CLARepoRow,ContributorsModal]
+    templateUrl: '/client/home/repo/repo.html',
 })
 
-export class RepoComponent{
-  @Input() user;
-  @Input() claRepos;
+export class RepoComponent {
+    @Input() public user;
+    @Input() public claRepos;
 
-  repo = {
-    gist:"https://hello/gist",
-    repo:"repo1",
-    owner:"Bandana"
-  }
+    public repo = {
+        gist: 'https://hello/gist',
+        owner: 'Bandana',
+        repo: 'repo1',
+    };
 
-  constructor(){
-    this.claRepos = [];
-    this.claRepos.push(this.repo);
-  }
-  getGistName(){
-    return 'test gist';
-  }
+    constructor() {
+        this.claRepos = [];
+        this.claRepos.push(this.repo);
+    }
+
+    public getGistName() {
+        return 'test gist';
+    }
 
 }

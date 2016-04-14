@@ -1,25 +1,28 @@
 
 import {bootstrap}    from 'angular2/platform/browser';
-import {Component, Input,provide} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {LoginComponent}     from './login/login.component';
 import {HomeComponent} from './home/home.component';
 
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 
 @Component({
+    directives: [LoginComponent, HomeComponent],
     selector: 'mainroot',
-    template: `<router-outlet></router-outlet>`,
-    directives: [ROUTER_DIRECTIVES]
-
+    template: `<login *ngIf="!authenticated"></login>
+               <home  *ngIf="authenticated"></home>`,
 })
 
-@RouteConfig([
-    { path: '/', component: LoginComponent, as: 'Login' },
-    { path: '/home', component: HomeComponent, as: 'Home' }
-])
+class RootComponent {
+    @Input() public authenticated: boolean;
 
-class RootComponent { }
+    constructor() {
+        this.authenticated = this._isAuthenticated();
+    }
 
-bootstrap(RootComponent, [ROUTER_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy})]);
+    private _isAuthenticated() {
+        return false;
+    }
 
-// bootstrap(LoginComponent);
+}
+
+bootstrap(RootComponent);

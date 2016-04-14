@@ -6,26 +6,26 @@ import {Component, ElementRef, Input} from 'angular2/core';
 
 @Component({
     selector: 'contributors-modal',
-    templateUrl: '/client/home/repo/contributors.modal.html'
+    templateUrl: '/client/home/repo/contributors.modal.html',
 })
 
 
 export class ContributorsModal {
-    @Input() gistName: string;
-    @Input() repo: any;
-    @Input() contributors: any;
+    @Input() public gistName: string;
+    @Input() public repo: any;
+    @Input() public contributors: any;
 
-    reverse: boolean;
-    column: string;
-    loading: boolean;
+    public reverse: boolean;
+    public column: string;
+    public loading: boolean;
 
-    updatedDate = new Date('2016-03-19T01:09:25Z');
+    public updatedDate = new Date('2016-03-19T01:09:25Z');
 
-    element: any;
+    public element: any;
 
-    contributor = {
+    public contributor = {
+        signed_at: this.updatedDate,
         user_name: 'Alpha-Beta',
-        signed_at: this.updatedDate
     };
 
     constructor(el: ElementRef) {
@@ -37,12 +37,12 @@ export class ContributorsModal {
         this.loading = false;
     }
 
-    showContributors(repo) {
+    public showContributors(repo) {
         this.repo = repo;
         this.element.modal('show');
     }
 
-    cancel() {
+    public cancel() {
         this.element.modal('hide');
     }
 

@@ -1,22 +1,22 @@
 import {Component, Input} from 'angular2/core';
-import {feature} from './feature.template';
-import {load} from './cla.sign.loader';
+import {Feature} from './feature.template';
+import {Load} from './cla.sign.loader';
 
 @Component({
+    directives: [Feature, Load],
     selector: 'login',
     templateUrl: '/client/login/login.html',
-    directives: [feature,load]
 })
 
 
 export class LoginComponent {
-    @Input() active: number;
+    @Input() public active: number;
 
-// text slider
-    numberRepos: number;
-    numberClas: number;
-    numberStars: number;
-    time = '5000';
+    // text slider
+    public numberRepos: number;
+    public numberClas: number;
+    public numberStars: number;
+    public time = '5000';
 
     constructor() {
         this.active = 0;
@@ -26,8 +26,8 @@ export class LoginComponent {
         this._TiggerSlider();
     }
 
-    logAdminIn() {
-        console.log("Sign In Selected");
+    public logAdminIn() {
+        console.log('Sign In Selected');
     }
 
 
@@ -44,10 +44,12 @@ export class LoginComponent {
     }
 
     private _TiggerSlider() {
-        setTimeout((time) => {
-            this.active = +this.active + 1 === 3 ? 0 : +this.active + 1;
-            this._TiggerSlider();
-        }, this.time);
+        setTimeout(
+            (time) => {
+                this.active = +this.active + 1 === 3 ? 0 : +this.active + 1;
+                this._TiggerSlider();
+            },
+            this.time);
     }
 
 }

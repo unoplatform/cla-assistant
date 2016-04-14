@@ -1,55 +1,53 @@
-declare var gist:any;
-declare var signatures:any;
+declare var gist: any;
+declare var signatures: any;
 
-export interface Repo {
-  repo: string,
-  owner: string
+export interface IRepo {
+    repo: string;
+    owner: string;
 }
 
 
-import {Component, Input,Output,EventEmitter} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {TooltipActivation} from '../../utils/activate_tooltip';
 
-// import {TOOLTIP_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
+    directives: [TooltipActivation],
     selector: 'cla-repo-row',
-    templateUrl:'/client/home/repo/row.template.html',
-    directives:[TooltipActivation]
-    // directives:[TOOLTIP_DIRECTIVES]
+    templateUrl: '/client/home/repo/row.template.html',
 })
 
-export class CLARepoRow{
-  @Input() repo;
-  @Output() showContributors = new EventEmitter<Repo>();
+export class CLARepoRow {
+    @Input() public repo;
+    @Output() public showContributors = new EventEmitter<IRepo>();
 
-updatedDate = new Date('2016-03-19T01:09:25Z');
+    public updatedDate = new Date('2016-03-19T01:09:25Z');
+    public gistName: string;
 
-  gistName:string;
+    public gist = {
+        html_url: 'https://gistUrl',
+        id: [0, 1, 2],
+        updated_at: this.updatedDate,
+    };
 
-  gist = {
-    html_url:"https://gistUrl",
-    id:[  0,1,2],
-    updated_at: this.updatedDate
-  };
+    public signatures = {
+        value: [
+            '123', '456',
+        ],
+    };
 
-signatures={
-  value:[
-    '123','456'
-  ]
-}
-  isLinkActive() {
-    return true;
-  }
+    public isLinkActive() {
+        return true;
+    }
 
-  getGistName(){
-    this.gistName = 'MyGist';
-    // return 'MyGist';
-  }
+    public getGistName() {
+        this.gistName = 'MyGist';
+        // return 'MyGist';
+    }
 
-  showContributorsReport(){
-    console.log('test');
-    this.showContributors.next(this.repo);
-  }
+    public showContributorsReport() {
+        console.log('test');
+        this.showContributors.next(this.repo);
+    }
 
 }
