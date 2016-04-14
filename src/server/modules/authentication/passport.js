@@ -6,7 +6,7 @@ let url = require('../helper/url');
 let passport = require('passport');
 let Strategy = require('passport-github2').Strategy;
 let merge = require('merge');
-let User = require('../user/user.model');
+let User = require('../users/users.model');
 
 passport.use(new Strategy({
         clientID: config.server.github.client,
@@ -14,7 +14,10 @@ passport.use(new Strategy({
         callbackURL: url.githubCallback
     },
     function(accessToken, refreshToken, profile, done) {
-        let mails = profile.emails.map((obj) => { return obj.value; } ).toString();
+        let mails = "";
+        if (profile.emails) {
+          mails = profile.emails.map((obj) => { return obj.value; } ).toString();
+        }
 
         User.update({
             uuid: profile.id

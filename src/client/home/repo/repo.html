@@ -1,0 +1,38 @@
+<div class="row">
+  <h4 class="col-xs-12" style="margin: 25px 0; padding-left: 0;">Linked CLAs</h4>
+</div>
+<div class="well row" style="padding-top:25px;">
+    <table  class=" table">
+    <tr>
+      <td>
+        <div class="row col-xs-12" style="padding: 0;">
+          <div class="col-sm-3 col-lg-2" style="padding-left:0">
+            Repository
+          </div>
+          <div class="col-sm-3 col-lg-2">
+            CLA
+          </div>
+          <div class="col-lg-3 hidden-xs hidden-sm hidden-md">
+            Gist
+          </div>
+          <div class="col-sm-2 col-lg-2">
+            Last updated
+          </div>
+          <div class="col-sm-2 col-lg-1 text">
+            Contributors
+          </div>
+          <div class="col-sm-1 col-lg-2">
+            Status
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="#claRepo of claRepos">
+      <td>
+          <cla-repo-row [repo]="claRepo" (showContributors)="ContributorsModal.showContributors($event)"></cla-repo-row>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<contributors-modal class="modal fade" tabindex="-1" role="dialog"  #ContributorsModal [gistName]=getGistName() *ngIf="modalOpen"></contributors-modal>

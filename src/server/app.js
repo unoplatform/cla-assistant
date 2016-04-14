@@ -30,6 +30,7 @@ mongoose.connect(config.server.mongodb.uri, {
 
 let app = express();
 
+
 // redirect from http to https
 app.use(function(req, res, next) {
     if (!req.headers['x-forwarded-proto'] || req.headers['x-forwarded-proto'] === 'https') {
@@ -58,10 +59,25 @@ app.use(passport.session());
 app.use('/', require('./modules/authentication/api'));
 app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
 
+const SRC = '../../src/client';
+const DIST = '../../dist/client';
+const NPM = '../../node_modules/**/*';
+
+console.log(__dirname);
+app.use('/client', express.static(path.join(__dirname, DIST)));
+app.use('/client', express.static(path.join(__dirname, SRC)));
+app.use('/node_modules', express.static(path.join(__dirname, '..', '..', 'node_modules')));
+app.use('/', express.static(path.join(__dirname, SRC)));
+
 
 app.get('/', (req, res) => {
     let filePath;
-	filePath = path.join(__dirname, '..', 'client', 'login.html');
+    if (req.user) {
+      filePath = path.join(__dirname, '..', 'client', 'home', 'home.html');
+    }
+    else {
+      filePath = path.join(__dirname, '..', 'client', 'index.html');
+    }
 
 	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	res.status(200).sendFile(filePath);

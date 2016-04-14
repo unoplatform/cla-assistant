@@ -1,0 +1,9 @@
+<div class="feature-box" (mouseenter)="show = id" (mouseleave)="show = 'feature0 '">
+        <img src="{{iconsrc}}" class="center-block feature-img">
+      <div class="lp-row feature-show feature-text" [hidden]="!(show == id)">
+          {{text}}
+      </div>
+        <div [ngClass]="{true: 'feature-title', false:''}[show == id]" class="lp-row feature-header">
+          {{header}}
+      </div>
+</div>

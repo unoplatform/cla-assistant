@@ -9,6 +9,7 @@ report
 npm-debug.log
 test
 coverage
+dist
 src/client/assets/styles/app.css
 src/client/assets/styles/app.css.map
 src/client/app.min.js
@@ -18,3 +19,4 @@ src/client/app.min.js.map
 log
 log.*
 .vscode/*
+typings
