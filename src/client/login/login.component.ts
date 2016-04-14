@@ -18,7 +18,11 @@ export class LoginComponent {
     public numberStars: number;
     public time = '5000';
 
-    constructor() {
+    private _window : Window;
+
+    constructor(private window: Window) {
+        this._window = window;
+
         this.active = 0;
         this._updateNumberOfRepos();
         this._updateNumberOfCLAs();
@@ -27,9 +31,8 @@ export class LoginComponent {
     }
 
     public logAdminIn() {
-        console.log('Sign In Selected');
+        this._window.location.href = '/auth/github?admin=true';
     }
-
 
     private _updateNumberOfRepos() {
         this.numberRepos = 10;

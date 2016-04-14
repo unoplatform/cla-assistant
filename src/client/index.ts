@@ -1,6 +1,6 @@
 
 import {bootstrap}    from 'angular2/platform/browser';
-import {Component, Input} from 'angular2/core';
+import {Component, Input, provide} from 'angular2/core';
 import {LoginComponent}     from './login/login.component';
 import {HomeComponent} from './home/home.component';
 
@@ -25,4 +25,4 @@ class RootComponent {
 
 }
 
-bootstrap(RootComponent);
+bootstrap(RootComponent,[provide(Window, {useValue: window})]);
