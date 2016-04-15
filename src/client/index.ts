@@ -1,9 +1,9 @@
 
 import {bootstrap}    from 'angular2/platform/browser';
-import {Component, Input, provide, ViewResolver, ViewMetadata, Type} from 'angular2/core';
+import {Component, Input, provide } from 'angular2/core';
 import {LoginComponent}     from './login/login.component';
 import {HomeComponent} from './home/home.component';
-import {Http, Headers, HTTP_PROVIDERS, Response} from 'angular2/http';
+import {Http, HTTP_PROVIDERS} from 'angular2/http';
 import {enableProdMode} from 'angular2/core';
 
 import 'rxjs/Rx';
@@ -14,28 +14,30 @@ enableProdMode();
     directives: [LoginComponent, HomeComponent],
     selector: 'mainroot',
     template: `<login *ngIf="login"></login>
-               <home  *ngIf="home"></home>`,
+               <home  *ngIf="home" [user]="user"></home>`,
     viewProviders: [HTTP_PROVIDERS],
 })
 
 class RootComponent {
-    @Input() public authenticated: boolean;
+// parameters that control visibility of home and the login component
     @Input() public login: boolean;
     @Input() public home: boolean;
 
-    constructor(public http: Http) {
-      let that = this;
-        http.get('/isUserAuthenticated')
-            .map(res => <boolean>res.json())
+    @Input() public user: JSON;
+
+    constructor(private http: Http) {
+        let that = this;
+        http.get('/api/github/user')
+            .map(res => res.json().data)
             .subscribe(
-            function(data) {
-                if (data) {
-                    that.login = false;
-                    that.home = true;
-                } else {
-                    that.login = true;
-                    that.home = false;
-                }
+            function(user) {
+                that.user = user;
+                that.login = false;
+                that.home = true;
+            },
+            function(error) {
+                that.login = true;
+                that.home = false;
             }
             );
     }

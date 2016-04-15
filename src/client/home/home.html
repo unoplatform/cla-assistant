@@ -2,15 +2,15 @@
   <div id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-home-left">
-            <div [hidden]="!user.value.login">
-              <a bind-href="user.value.html_url" target="spcae">
-                <img bind-src="user.value.avatar_url" style="height:25px;" />
-                <a class="navbar-text-hide">&nbsp; Hey, <b>{{ user.value.login }}</b>!</a>
+            <div [hidden]="!user.login">
+              <a bind-href="user.html_url" target="spcae">
+                <img bind-src="user.avatar_url" style="height:25px;" />
+                <a class="navbar-text-hide">&nbsp; Hey, <b>{{ user.login }}</b>!</a>
               </a>
             </div>
         </div>
         <div class="nav navbar-home-right">
-            <a [hidden]="!user.value.login" href="/logout" target="_self" class="octicon octicon-sign-out" style="font-size:19px" tooltip-placement="left"
+            <a [hidden]="!user.login" href="/logout" target="_self" class="octicon octicon-sign-out" style="font-size:19px" tooltip-placement="left"
             tooltip="Sign out"></a>
         </div>
         <div class="navbar-center" style="">

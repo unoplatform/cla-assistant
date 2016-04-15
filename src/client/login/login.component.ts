@@ -11,13 +11,14 @@ import {Load} from './cla.sign.loader';
 
 export class LoginComponent {
     @Input() public active: number;
+
     // text slider
     public numberRepos: number;
     public numberClas: number;
     public numberStars: number;
     public time = '5000';
 
-    private _window : Window;
+    private _window: Window;
 
     constructor(private window: Window) {
         this._window = window;
