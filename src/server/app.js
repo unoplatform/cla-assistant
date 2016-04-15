@@ -59,21 +59,21 @@ app.use(passport.session());
 app.use('/', require('./modules/authentication/api'));
 app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
 
-const SRC = '../../src/client';
-const DIST = '../../dist/client';
-const NPM = '../../node_modules/**/*';
+const SRC = path.join(__dirname, '..', '..', 'src', 'client', 'assets');
+const DIST = path.join(__dirname, '..', '..', 'dist', 'client');
+const NPM = path.join(__dirname, '..', '..', 'node_modules');
 
-console.log(__dirname);
-app.use('/client', express.static(path.join(__dirname, DIST)));
-app.use('/client', express.static(path.join(__dirname, SRC)));
-app.use('/node_modules', express.static(path.join(__dirname, '..', '..', 'node_modules')));
-app.use('/', express.static(path.join(__dirname, SRC)));
+app.use('/client', express.static( DIST ));
+app.use('/assets', express.static( SRC ));
+app.use('/node_modules', express.static( NPM ));
+// app.use('/', express.static( SRC ));
 
 
 app.get('/', (req, res) => {
     let filePath;
     if (req.user) {
-      filePath = path.join(__dirname, '..', 'client', 'home', 'home.html');
+      filePath = path.join(__dirname, '..', 'client', 'index.html');
+    //   filePath = path.join(__dirname, '..', 'client', 'home', 'home.html');
     }
     else {
       filePath = path.join(__dirname, '..', 'client', 'index.html');
