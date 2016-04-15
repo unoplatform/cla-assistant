@@ -5,31 +5,31 @@ import {Component, Input} from 'angular2/core';
 
 @Component({
     selector: 'cla-link',
-    templateUrl: '/client/home/clalink/clalink.html'
+    templateUrl: '/client/home/clalink/clalink.html',
 })
 
 export class CLALinkComponent {
-    @Input() user: any;
-    @Input() newLink: boolean;
+    @Input() public user: any;
+    @Input() public newLink: boolean;
 
-    selectedGist = {
+    public selectedGist = {
         gist: {
             name: 'myCLA',
-            url: 'http://www.google.com'
-        }
-    }
+            url: 'http://www.google.com',
+        },
+    };
 
-    selectedRepo = {
-      repo : "new repo"
-    }
+    public selectedRepo = {
+      repo : 'new repo',
+    };
 
-    constructor() {
+    constructor( ) {
         this.newLink = false;
     }
 
-    isValid(url){
+    public isValid( url ) {
       return true;
-    }
+    };
 
 
 }

@@ -1,18 +1,18 @@
 import {Directive, ElementRef, AfterViewInit} from 'angular2/core';
 
 @Directive({
-    selector: '[activate-tooltip]'
+    selector: '[activate-tooltip]',
 })
 
 export class TooltipActivation implements AfterViewInit {
 
-    element: any;
+    private element: any;
 
     constructor(el: ElementRef) {
         this.element = $(el.nativeElement);
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.element.tooltip();
     }
 
