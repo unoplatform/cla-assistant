@@ -68,6 +68,7 @@ app.use('/assets', express.static( SRC ));
 app.use('/node_modules', express.static( NPM ));
 // app.use('/', express.static( SRC ));
 
+app.use('/api/github', require('./modules/github/api'));
 
 app.get('/', (req, res) => {
     let filePath;
@@ -82,6 +83,8 @@ app.get('/', (req, res) => {
 	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	res.status(200).sendFile(filePath);
 });
+
+
 // custom mrepodleware
 // app.use('/api', require('./middleware/param'));
 // app.use('/github', require('./middleware/param'));
