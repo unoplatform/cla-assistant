@@ -82,6 +82,13 @@ app.get('/', (req, res) => {
 	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	res.status(200).sendFile(filePath);
 });
+
+app.get('/isUserAuthenticated', (req, res) => {
+  console.log('user authentication is called');
+	res.setHeader('Last-Modified', (new Date()).toUTCString());
+	res.status(200).send(true);
+});
+
 // custom mrepodleware
 // app.use('/api', require('./middleware/param'));
 // app.use('/github', require('./middleware/param'));

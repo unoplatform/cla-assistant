@@ -11,7 +11,6 @@ import {Load} from './cla.sign.loader';
 
 export class LoginComponent {
     @Input() public active: number;
-
     // text slider
     public numberRepos: number;
     public numberClas: number;
