@@ -12,19 +12,6 @@ let passport = require('passport');
 global.config = require('./../config');
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
-// Bootstrap services
-// ////////////////////////////////////////////////////////////////////////////////////////////////
-
-let mongoose = require('mongoose');
-mongoose.connect(config.server.mongodb.uri, {
-    server: {
-        socketOptions: {
-            keepAlive: 1
-        }
-    }
-});
-
-// ////////////////////////////////////////////////////////////////////////////////////////////////
 // Express application
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,8 +43,19 @@ app.use(require('cookie-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', require('./modules/authentication/api'));
-app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+// Bootstrap services
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+
+let mongoose = require('mongoose');
+mongoose.connect(config.server.mongodb.uri, {
+    server: {
+        socketOptions: {
+            keepAlive: 1
+        }
+    }
+});
 
 const SRC = path.join(__dirname, '..', '..', 'src', 'client', 'assets');
 const DIST = path.join(__dirname, '..', '..', 'dist', 'client');
@@ -66,15 +64,49 @@ const NPM = path.join(__dirname, '..', '..', 'node_modules');
 app.use('/client', express.static( DIST ));
 app.use('/assets', express.static( SRC ));
 app.use('/node_modules', express.static( NPM ));
-// app.use('/', express.static( SRC ));
 
-app.use('/api/github', require('./modules/github/api'));
+
+global.api_handler = {};
+
+let glob = require('glob');
+
+let bootstrap = function(moduleName, object) {
+    let file = path.join(__dirname, 'modules', moduleName, object);
+    if (glob.sync(file + '.js').length <= 0) {
+        return;
+    }
+    try {
+        if (object === 'api') {
+            app.use('/api/' + moduleName, require(file));
+        }
+        else if (object === 'api_handler') {
+            api_handler[moduleName] = require(file);
+        }
+    } catch (ex) {
+        console.log('  ✖ '.bold.red + file);
+        console.log(ex.stack);
+        return;
+    }
+    console.log('  ✓ '.bold.green + object);
+};
+
+
+console.log('Bootstrap modules .....'.bold);
+glob.sync(path.join(__dirname, 'modules', '*')).forEach(function(dir) {
+    let moduleName = path.basename(dir);
+
+    console.log(moduleName.bold);
+    bootstrap(moduleName, 'api_handler');
+    bootstrap(moduleName, 'api');
+});
+
+app.use('/', require('./modules/authentication/api'));
+app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
 
 app.get('/', (req, res) => {
     let filePath;
     if (req.user) {
       filePath = path.join(__dirname, '..', 'client', 'index.html');
-    //   filePath = path.join(__dirname, '..', 'client', 'home', 'home.html');
     }
     else {
       filePath = path.join(__dirname, '..', 'client', 'index.html');
@@ -83,11 +115,5 @@ app.get('/', (req, res) => {
 	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	res.status(200).sendFile(filePath);
 });
-
-// custom mrepodleware
-// app.use('/api', require('./middleware/param'));
-// app.use('/github', require('./middleware/param'));
-// app.use('/accept', require('./middleware/param'));
-// app.use('/count', require('./middleware/param'));
 
 module.exports = app;

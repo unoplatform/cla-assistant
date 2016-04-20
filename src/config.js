@@ -62,7 +62,11 @@ module.exports = {
         ],
 
         api: [
-            path.join(__dirname, 'server', 'api', '*.js')
+            path.join(__dirname, 'server', 'modules', '*' ,'api.js')
+        ],
+
+        api_handler: [
+            path.join(__dirname, 'server', 'modules', '*' ,'api.handler.js')
         ],
 
         free_api: [
