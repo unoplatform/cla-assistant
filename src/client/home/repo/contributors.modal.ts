@@ -3,8 +3,10 @@ declare var contributors: any;
 declare var contributor: any;
 
 import {Component, ElementRef, Input} from 'angular2/core';
+import {NgClass, NgFor} from 'angular2/common';
 
 @Component({
+    directives: [NgClass, NgFor],
     selector: 'contributors-modal',
     templateUrl: '/client/home/repo/contributors.modal.html',
 })

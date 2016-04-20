@@ -5,21 +5,22 @@ import {LoginComponent}     from './login/login.component';
 import {HomeComponent} from './home/home.component';
 import {Http, HTTP_PROVIDERS} from 'angular2/http';
 import {enableProdMode} from 'angular2/core';
+import {NgIf} from 'angular2/common';
 
 import 'rxjs/Rx';
 
 enableProdMode();
 
 @Component({
-    directives: [LoginComponent, HomeComponent],
+    directives: [LoginComponent, HomeComponent, NgIf],
     selector: 'mainroot',
     template: `<login *ngIf="login"></login>
                <home  *ngIf="home" [user]="user"></home>`,
-    viewProviders: [HTTP_PROVIDERS],
+    viewProviders: [HTTP_PROVIDERS]
 })
 
-class RootComponent {
-// parameters that control visibility of home and the login component
+export class RootComponent {
+    // parameters that control visibility of home and the login component
     @Input() public login: boolean;
     @Input() public home: boolean;
 
@@ -39,7 +40,7 @@ class RootComponent {
                 that.login = true;
                 that.home = false;
             }
-            );
+        );
     }
 }
 

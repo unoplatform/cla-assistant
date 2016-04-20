@@ -11,6 +11,8 @@ const nodemon = require('gulp-nodemon');
 const env = require('gulp-env');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
+const karma = require('karma').Server;
+const join = require('path').join;
 
 const tsc = require('gulp-typescript');
 const tscOptions = tsc.createProject('tsconfig.json');
@@ -93,9 +95,15 @@ gulp.task('test', ['pre-test'], () => {
         reportOpts: { dir: './coverage' }
     }))
     // Enforce a coverage of at least 90%
-    .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
+    .pipe(istanbul  .enforceThresholds({ thresholds: { global: 90 } }));
 });
 
+gulp.task('test-ui', function (done) {
+    karma.start({
+      configFile: join(process.cwd(), 'karma.conf.js'),
+      singleRun: true
+    }, done);
+});
 
 gulp.task('default', ['start']);
 gulp.task('lint', ['eslint', 'tslint']);
