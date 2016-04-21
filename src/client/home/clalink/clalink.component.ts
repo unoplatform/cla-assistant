@@ -3,9 +3,10 @@ declare var selectedRepo: any;
 
 import {Component, Input} from 'angular2/core';
 import {NgModel, FORM_DIRECTIVES} from 'angular2/common';
+import {DropDownComponent} from '../../utils/dropdown';
 
 @Component({
-    directives: [FORM_DIRECTIVES, NgModel],
+    directives: [FORM_DIRECTIVES, NgModel, DropDownComponent],
     selector: 'cla-link',
     templateUrl: '/client/home/clalink/clalink.html'
 })

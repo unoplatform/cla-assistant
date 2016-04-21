@@ -81,6 +81,12 @@ app.get('/', (req, res) => {
 	res.status(200).sendFile(filePath);
 });
 
+Handle 404 not found page
+app.use(function(req, res) {
+    let filePath = path.join(__dirname, '..', 'client', '404.html');
+    res.status(200).sendFile(filePath);
+ });
+
 // custom mrepodleware
 // app.use('/api', require('./middleware/param'));
 // app.use('/github', require('./middleware/param'));
