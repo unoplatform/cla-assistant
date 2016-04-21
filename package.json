@@ -54,10 +54,9 @@
     "gulp-istanbul": "^0.10.4",
     "gulp-mocha": "^2.2.0",
     "gulp-nodemon": "^2.0.6",
+    "gulp-sass": "^2.2.0",
     "gulp-tslint": "^4.3.5",
-    "sinon": "^1.17.3",
-    "supertest": "^1.2.0",
-    "tslint": "^3.7.4",
+    "gulp-using": "^0.1.0",
     "jasmine-core": "~2.4.1",
     "jasmine-spec-reporter": "^2.4.0",
     "karma": "~0.13.22",
@@ -66,7 +65,10 @@
     "karma-ie-launcher": "^0.2.0",
     "karma-jasmine": "~0.3.8",
     "karma-mocha-reporter": "^2.0.0",
-    "karma-phantomjs-launcher": "^1.0.0"
+    "karma-phantomjs-launcher": "^1.0.0",
+    "sinon": "^1.17.3",
+    "supertest": "^1.2.0",
+    "tslint": "^3.7.4"
   },
   "engines": {
     "node": ">=5.6.0"
