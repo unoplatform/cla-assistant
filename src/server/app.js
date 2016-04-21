@@ -59,14 +59,11 @@ app.use(passport.session());
 app.use('/', require('./modules/authentication/api'));
 app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
 
-const SRC = path.join(__dirname, '..', '..', 'src', 'client', 'assets');
 const DIST = path.join(__dirname, '..', '..', 'dist', 'client');
 const NPM = path.join(__dirname, '..', '..', 'node_modules');
 
 app.use('/client', express.static( DIST ));
-app.use('/assets', express.static( SRC ));
 app.use('/node_modules', express.static( NPM ));
-// app.use('/', express.static( SRC ));
 
 app.use('/api/github', require('./modules/github/api'));
 

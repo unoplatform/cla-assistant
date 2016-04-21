@@ -35,15 +35,15 @@ module.exports = function(config) {
       { pattern: './node_modules/systemjs/dist/system-polyfills.js', included: false, watched: false }, // PhantomJS2 (and possibly others) might require it
 
       // suppress annoying 404 warnings for resources, images, etc.
-      { pattern: './src/client/assets/**/*', watched: false, included: false, served: true },
-      { pattern: './src/client/assets/**/**/*', watched: false, included: false, served: true },
+      { pattern: './dist/client/assets/**/*', watched: false, included: false, served: true },
+      { pattern: './dist/client/assets/**/**/*', watched: false, included: false, served: true },
       './src/client/assets/js/edge.5.0.1.min.js',
       'karma.bootstrap.config.js'
     ],
 
     // must go along with above, suppress annoying 404 warnings.
     proxies: {
-      '/assets/': '/base/src/client/assets/'
+      '/client/assets/': '/base/dist/client/assets/'
     },
 
     // list of files to exclude

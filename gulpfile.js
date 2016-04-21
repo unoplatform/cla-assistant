@@ -30,13 +30,19 @@ gulp.task('clean', () => {
     return del(['./dist']);
 });
 
-gulp.task('compile-css',function(){
+gulp.task('copy-assets',['compile-css'], function() {
+    return gulp.src(['src/client/assets/**/*'], {
+          base: 'src'
+      }).pipe(gulp.dest('dist'));
+});
+
+gulp.task('compile-css',['clean'],function(){
     return gulp.src('src/client/assets/styles/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('src/client/assets/styles'));
 });
 
-gulp.task('compile', ['clean'], function(){
+gulp.task('compile', ['copy-assets'], function(){
     //compile client files, use ng2template for now to support unit tests, should be separated later
     let tsResult = gulp.src(['./src/client/*.ts', './src/client/**/*.ts','./src/client/**/**/*.ts'])
         .pipe(inlineNg2Template({ base: '//src' }))
@@ -53,7 +59,7 @@ gulp.task('compile', ['clean'], function(){
     .pipe(gulp.dest('./dist/client'));
 });
 
-gulp.task('start', ['source','compile'], (cb) => {
+gulp.task('start', ['source','compile-css','compile'], (cb) => {
     require('./app.js');
     process.on('SIGINT', () => {
         process.exit();
