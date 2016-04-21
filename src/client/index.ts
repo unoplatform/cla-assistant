@@ -1,4 +1,4 @@
-import {Component, Input, provide } from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {LoginComponent}     from './login/login.component';
 import {HomeComponent} from './home/home.component';
 import {NgIf} from 'angular2/common';

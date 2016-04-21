@@ -5,7 +5,7 @@ import {RepoComponent} from '../home/repo/repo.component';
 import {TooltipActivation} from '../utils/activate_tooltip';
 
 @Component({
-    directives: [RepoComponent, CLALinkComponent,TooltipActivation],
+    directives: [RepoComponent, CLALinkComponent, TooltipActivation],
     selector: 'home',
     templateUrl: '/client/home/home.html',
 })

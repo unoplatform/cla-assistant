@@ -3,10 +3,11 @@ declare var contributors: any;
 declare var contributor: any;
 
 import {Component, ElementRef, Input} from 'angular2/core';
-import {NgClass, NgFor} from 'angular2/common';
+import {NgClass, NgFor, DatePipe} from 'angular2/common';
 
 @Component({
     directives: [NgClass, NgFor],
+    pipes: [DatePipe],
     selector: 'contributors-modal',
     templateUrl: '/client/home/repo/contributors.modal.html',
 })
@@ -30,6 +31,7 @@ export class ContributorsModal {
         user_name: 'Alpha-Beta',
     };
 
+
     constructor(el: ElementRef) {
         this.element = $(el.nativeElement);
         this.contributors = [];
@@ -37,6 +39,11 @@ export class ContributorsModal {
         this.reverse = false;
         this.column = 'user_name';
         this.loading = false;
+
+        this.repo = {
+          name: '',
+          onwer: ''
+        };
     }
 
     public showContributors(repo) {

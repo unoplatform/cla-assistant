@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import { Http, HTTP_PROVIDERS} from 'angular2/http';
+import { Http } from 'angular2/http';
 
 
 @Injectable()
@@ -12,7 +12,7 @@ export class HomeService {
     public getUser() {
         return this._http.get('/api/github/user')
             .map(res => {
-                return res.json().data
+                return res.json().data;
             });
     }
 }

@@ -47,7 +47,6 @@ export class CLARepoRow {
     }
 
     public showContributorsReport() {
-        console.log('test');
         this.showContributors.next(this.repo);
     }
 

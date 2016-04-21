@@ -1,12 +1,12 @@
 <div class="row">
-  <h4 class="col-xs-12" style="margin: 25px 0; padding-left: 0;">Linked CLAs</h4>
+  <h4 class="col-xs-12 linked-clas-heading">Linked CLAs</h4>
 </div>
-<div class="well row" style="padding-top:25px;">
+<div class="well row linked-clas-list" >
     <table  class=" table">
     <tr>
       <td>
-        <div class="row col-xs-12" style="padding: 0;">
-          <div class="col-sm-3 col-lg-2" style="padding-left:0">
+        <div class="row col-xs-12 linked-clas-list-heading">
+          <div class="col-sm-3 col-lg-2 linked-clas-list-first-col">
             Repository
           </div>
           <div class="col-sm-3 col-lg-2">
@@ -35,4 +35,4 @@
   </table>
 </div>
 
-<contributors-modal class="modal fade" tabindex="-1" role="dialog"  #ContributorsModal [gistName]=getGistName() *ngIf="modalOpen"></contributors-modal>
+<contributors-modal class="modal fade" tabindex="-1" role="dialog"  #ContributorsModal [gistName]=getGistName()></contributors-modal>

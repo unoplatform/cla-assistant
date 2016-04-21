@@ -56,7 +56,6 @@
     "gulp-nodemon": "^2.0.6",
     "gulp-sass": "^2.2.0",
     "gulp-tslint": "^4.3.5",
-    "gulp-using": "^0.1.0",
     "jasmine-core": "~2.4.1",
     "jasmine-spec-reporter": "^2.4.0",
     "karma": "~0.13.22",

@@ -19,7 +19,6 @@ const tscOptions = tsc.createProject('tsconfig.json');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const assets = require('gulp-assets');
 const sass = require('gulp-sass');
-const using = require('gulp-using');
 
 const del = require('del');
 
@@ -33,7 +32,6 @@ gulp.task('clean', () => {
 
 gulp.task('compile-css',function(){
     return gulp.src('src/client/assets/styles/*.scss')
-    .pipe(using())
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('src/client/assets/styles'));
 });
