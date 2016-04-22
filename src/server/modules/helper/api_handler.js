@@ -4,6 +4,7 @@ class ApiHandler {
     constructor(){
     }
     respond(res, err, data) {
+
         if (err) {
             return res.status(err.code > 0 ? err.code : 500).send(JSON.stringify(err.text || err));
         }

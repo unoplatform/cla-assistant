@@ -2,6 +2,7 @@
 
 let colors = require('colors');
 let express = require('express');
+let merge = require('merge');
 let passport = require('passport');
 let path = require('path');
 
@@ -12,14 +13,10 @@ let path = require('path');
 global.config = require('./../config');
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
-// Express application
+// Middleware
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
-let app = express();
-
-
-// redirect from http to https
-app.use(function(req, res, next) {
+function httpToHttps (req, res, next) {
     if (!req.headers['x-forwarded-proto'] || req.headers['x-forwarded-proto'] === 'https') {
         next();
         return;
@@ -29,7 +26,22 @@ app.use(function(req, res, next) {
     res.setHeader('location', 'https://' + host + req.url);
     res.statusCode = 301;
     res.end();
-});
+}
+
+function getArgs(req, res, next) {
+    req.args = merge(req.body, req.query);
+    next();
+}
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+// Express application
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+
+let app = express();
+
+
+// redirect from http to https
+app.use(httpToHttps);
 
 app.use(require('x-frame-options')());
 app.use(require('body-parser').json());
@@ -43,6 +55,10 @@ app.use(require('cookie-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/api', getArgs);
+app.use('/github', getArgs);
+app.use('/accept', getArgs);
+app.use('/count', getArgs);
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 // Bootstrap services

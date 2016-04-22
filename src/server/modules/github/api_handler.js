@@ -6,7 +6,6 @@ let ApiHandler = require('../helper/api_handler');
 class GithubHandler extends ApiHandler{
     constructor() {
         super();
-        this.req = '';
     }
     respond(err, data, meta) {
         let obj = {
@@ -15,17 +14,13 @@ class GithubHandler extends ApiHandler{
         };
         super.respond(this.res, err, obj);
     }
-    handleUser(req, res) {
-        let args = {
-            obj: 'user',
-            fun: 'get',
-            token: req.user.token
-        };
+    callGithub(req, res) {
+        req.args.token = req.user.token;
 
         this.req = req;
         this.res = res;
 
-        githubService.callGithub(args, (err, res, meta) => {
+        githubService.callGithub(req.args, (err, res, meta) => {
             this.respond(err, res, meta);
         });
     }

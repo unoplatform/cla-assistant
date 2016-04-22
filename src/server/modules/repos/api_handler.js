@@ -8,6 +8,7 @@ class RepoHandler extends ApiHandler{
         super();
     }
     getUserRepos(req, res) {
+        req.args.repoId = req.args.repoId || req.params.repoId;
         let getFn = typeof req.args.repoId === 'string' ? repoService.getOne : repoService.getMultiple;
 
         getFn(req.args, (err, obj) => {

@@ -65,6 +65,15 @@ describe('repoHandler', () => {
             assert(repoHandler.respond.called);
         });
 
+        it('should handle repoId as get parameter too', () => {
+            req.args = {};
+            req.params = { repoId: 'testId' };
+
+            repoHandler.getUserRepos(req, res);
+
+            assert(repoHandler.respond.called);
+        });
+
         it('should get multiple repos if an array of repoIds provided', () => {
             req.args = { repoId: ['testId_1', 'testId_2'] };
 
