@@ -20,6 +20,9 @@ const tscOptions = tsc.createProject('tsconfig.json');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const assets = require('gulp-assets');
 const sass = require('gulp-sass');
+const minify = require('gulp-minify');
+const rename = require('gulp-rename');
+const concat = require('gulp-concat');
 
 const del = require('del');
 
@@ -31,16 +34,33 @@ gulp.task('clean', () => {
     return del(['./dist']);
 });
 
-gulp.task('copy-assets',['compile-css'], function() {
+gulp.task('copy-assets',['compile-css','compress-lib'], function() {
     return gulp.src(['src/client/assets/**/*'], {
           base: 'src'
       }).pipe(gulp.dest('dist'));
 });
 
 gulp.task('compile-css',['clean'],function(){
-    return gulp.src('src/client/assets/styles/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('src/client/assets/styles'));
+      let stream = gulp.src('src/client/assets/styles/*.scss')
+                      .pipe(sass().on('error', sass.logError))
+                      .pipe(gulp.dest('src/client/assets/styles'));
+      return stream;
+});
+
+gulp.task('compress-lib', function() {
+  gulp.src(['node_modules/jquery/dist/jquery.min.js',
+            'node_modules/angular2/bundles/angular2-polyfills.js',
+            'node_modules/systemjs/dist/system.src.js',
+            'node_modules/rxjs/bundles/Rx.js',
+            'node_modules/angular2/bundles/angular2.dev.js',
+            'node_modules/angular2/bundles/http.js',
+            'node_modules/bootstrap/dist/js/bootstrap.js',
+            'src/client/assets/js/edge.5.0.1.min.js'])
+              .pipe(concat('concat.js'))
+              .pipe(gulp.dest('./dist/client'))
+              .pipe(rename('lib.js'))
+              .pipe(minify())
+              .pipe(gulp.dest('./dist/client'));
 });
 
 gulp.task('compile', ['copy-assets'], function(){
