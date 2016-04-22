@@ -8,20 +8,27 @@ let sinon = require('sinon');
 describe('githubHandler', () => {
     let req;
     let res;
+    let meta;
     beforeEach(() => {
         req = {};
         res = {
             status: () => { return this; },
             send: () => {}
         };
+        meta = {};
         sinon.spy(githubHandler, 'respond');
         sinon.stub(githubService, 'callGithub', (args, done) => {
-            done(null, {});
+            done(null, {}, meta);
+        });
+        sinon.stub(githubService, 'getNext', (meta, data, done) => {
+            meta.hasNext = false;
+            done(null, [{}, {}], meta);
         });
     });
     afterEach(() => {
         githubHandler.respond.restore();
         githubService.callGithub.restore();
+        githubService.getNext.restore();
     });
 
     describe('callGithub', () => {
@@ -40,6 +47,22 @@ describe('githubHandler', () => {
         });
 
         it('should add no token if token provided', () => {
+        });
+
+        it('should load all pages as default', () => {
+            meta.hasNext = true;
+
+            req.user = {token: 'testToken'};
+            req.args = {
+                obj: 'obj',
+                fun: 'fun',
+                data: 'data'
+            };
+
+            githubHandler.callGithub(req, res);
+
+            assert(githubHandler.respond.called);
+            assert(githubHandler.respond.calledTwice);
         });
     });
 });

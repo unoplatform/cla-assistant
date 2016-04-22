@@ -1,15 +1,31 @@
 'use strict';
 
 let GitHubApi = require('github');
-
-class GithubService {
-    constructor() {
-        this.github = new GitHubApi({
+let merge = require('merge');
+let github = new GitHubApi({
             protocol: config.server.github.protocol,
             version: config.server.github.version,
             host: config.server.github.api,
             pathPrefix: config.server.github.enterprise ? '/api/v3' : null
         });
+
+function extractMeta(res) {
+    let meta = {};
+
+    try {
+        meta.link = res.meta.link;
+        meta.hasNext = !!github.hasNextPage(res.meta.link);
+        meta.scopes = res.meta['x-oauth-scopes'];
+        delete res.meta;
+    } catch (ex) {
+        meta = null;
+    }
+    return meta;
+}
+
+class GithubService {
+    constructor() {
+        this.github = github;
     }
 
     callGithub(args, cb) {
@@ -44,21 +60,22 @@ class GithubService {
 
         this.github[obj][fun](arg, function(err, res) {
 
-            let meta = {};
-
-            try {
-                meta.link = res.meta.link;
-                meta.hasMore = !!this.github.hasNextPage(res.meta.link);
-                meta.scopes = res.meta['x-oauth-scopes'];
-                delete res.meta;
-            } catch (ex) {
-                meta = null;
-            }
+            let meta = extractMeta(res);
 
             if(typeof cb === 'function') {
                 cb(err, res, meta);
             }
 
+        });
+    }
+    getNext(meta, data, cb) {
+        this.github.getNextPage(meta, (err, res) => {
+            let newData = data.concat(res);
+            meta = extractMeta(res);
+
+            if(typeof cb === 'function') {
+                cb(err, newData, meta);
+            }
         });
     }
 }

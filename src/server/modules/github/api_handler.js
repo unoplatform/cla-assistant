@@ -12,7 +12,13 @@ class GithubHandler extends ApiHandler{
             data: data,
             meta: meta
         };
-        super.respond(this.res, err, obj);
+        if (meta && meta.hasNext) {
+            githubService.getNext(meta, data, (e, d, m) => {
+                this.respond(e, d, m);
+            });
+        } else {
+            super.respond(this.res, err, obj);
+        }
     }
     callGithub(req, res) {
         req.args.token = req.user.token;
