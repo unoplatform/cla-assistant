@@ -6,15 +6,16 @@ export interface IRepo {
     owner: string;
 }
 
-
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {TooltipActivation} from '../../utils/activate_tooltip';
+import {NgClass, NgIf, DatePipe} from 'angular2/common';
 
 
 @Component({
-    directives: [TooltipActivation],
+    directives: [TooltipActivation, NgClass, NgIf],
+    pipes: [DatePipe],
     selector: 'cla-repo-row',
-    templateUrl: '/client/home/repo/row.template.html',
+    templateUrl: '/client/home/repo/row.template.html'
 })
 
 export class CLARepoRow {
@@ -46,7 +47,6 @@ export class CLARepoRow {
     }
 
     public showContributorsReport() {
-        console.log('test');
         this.showContributors.next(this.repo);
     }
 

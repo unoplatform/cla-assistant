@@ -1,3 +1,4 @@
+
 import {Directive, ElementRef, AfterViewInit} from 'angular2/core';
 
 @Directive({

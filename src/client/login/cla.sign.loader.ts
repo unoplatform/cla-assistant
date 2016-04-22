@@ -9,7 +9,7 @@ export class Load {
 
     constructor(el: ElementRef) {
       AdobeEdge.loadComposition(
-          'assets/js/CLA_signature_MouseOver',
+          '/client/assets/js/CLA_signature_MouseOver',
           'EDGE-110781156',
           {
               centerStage: 'none',
@@ -26,5 +26,6 @@ export class Load {
               dom: [],
           });
     }
+
 
 }

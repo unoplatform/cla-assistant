@@ -1,9 +1,9 @@
 'use strict';
 
-require('colors');
-let path = require('path');
+let colors = require('colors');
 let express = require('express');
 let passport = require('passport');
+let path = require('path');
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 // Load configuration
@@ -57,12 +57,10 @@ mongoose.connect(config.server.mongodb.uri, {
     }
 });
 
-const SRC = path.join(__dirname, '..', '..', 'src', 'client', 'assets');
 const DIST = path.join(__dirname, '..', '..', 'dist', 'client');
 const NPM = path.join(__dirname, '..', '..', 'node_modules');
 
 app.use('/client', express.static( DIST ));
-app.use('/assets', express.static( SRC ));
 app.use('/node_modules', express.static( NPM ));
 
 
@@ -80,19 +78,19 @@ let bootstrap = function(moduleName, object) {
             api_handler[moduleName] = require(file);
         }
     } catch (ex) {
-        console.log('  ✖ '.bold.red + file);
+        console.log(colors.bold.red('  ✖ ') + file);
         console.log(ex.stack);
         return;
     }
-    console.log('  ✓ '.bold.green + object);
+    console.log(colors.bold.green('  ✓ ') + object);
 };
 
 
-console.log('Bootstrap modules .....'.bold);
+console.log(colors.bold('Bootstrap modules .....'));
 glob.sync(path.join(__dirname, 'modules', '*')).forEach(function(dir) {
     let moduleName = path.basename(dir);
 
-    console.log(moduleName.bold);
+    console.log(colors.bold(moduleName));
     bootstrap(moduleName, 'api_handler');
 });
 
@@ -104,5 +102,11 @@ app.get('/', (req, res) => {
 	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	res.status(200).sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
+
+// Handle 404 not found page
+app.use(function(req, res) {
+    let filePath = path.join(__dirname, '..', 'client', '404.html');
+    res.status(200).sendFile(filePath);
+ });
 
 module.exports = app;

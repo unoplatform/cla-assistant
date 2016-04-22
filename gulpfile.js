@@ -12,11 +12,14 @@ const env = require('gulp-env');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
 const plumber = require('gulp-plumber');
+const karma = require('karma').Server;
+const join = require('path').join;
 
 const tsc = require('gulp-typescript');
 const tscOptions = tsc.createProject('tsconfig.json');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const assets = require('gulp-assets');
+const sass = require('gulp-sass');
 
 const del = require('del');
 
@@ -28,7 +31,19 @@ gulp.task('clean', () => {
     return del(['./dist']);
 });
 
-gulp.task('compile', ['clean'], function(){
+gulp.task('copy-assets',['compile-css'], function() {
+    return gulp.src(['src/client/assets/**/*'], {
+          base: 'src'
+      }).pipe(gulp.dest('dist'));
+});
+
+gulp.task('compile-css',['clean'],function(){
+    return gulp.src('src/client/assets/styles/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('src/client/assets/styles'));
+});
+
+gulp.task('compile', ['copy-assets'], function(){
     //compile client files, use ng2template for now to support unit tests, should be separated later
     let tsResult = gulp.src(['./src/client/*.ts', './src/client/**/*.ts','./src/client/**/**/*.ts'])
         .pipe(inlineNg2Template({ base: '//src' }))
@@ -45,7 +60,7 @@ gulp.task('compile', ['clean'], function(){
     .pipe(gulp.dest('./dist/client'));
 });
 
-gulp.task('start', ['source','compile'], (cb) => {
+gulp.task('start', ['source','compile-css','compile'], (cb) => {
     require('./app.js');
     process.on('SIGINT', () => {
         process.exit();
@@ -100,6 +115,13 @@ gulp.task('test', ['pre-test'], () => {
 
 gulp.task('test-watch', () => {
     gulp.watch(['./src/server/**/**/*.spec.js', './src/server/**/**/*.js'], ['test']);
+});
+
+gulp.task('test-ui', function (done) {
+    karma.start({
+      configFile: join(process.cwd(), 'karma.conf.js'),
+      singleRun: true
+    }, done);
 });
 
 gulp.task('default', ['start']);

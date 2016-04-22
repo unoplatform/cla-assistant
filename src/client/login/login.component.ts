@@ -1,9 +1,10 @@
 import {Component, Input} from 'angular2/core';
 import {Feature} from './feature.template';
 import {Load} from './cla.sign.loader';
+import {NgClass} from 'angular2/common';
 
 @Component({
-    directives: [Feature, Load],
+    directives: [Feature, Load, NgClass],
     selector: 'login',
     templateUrl: '/client/login/login.html',
 })
