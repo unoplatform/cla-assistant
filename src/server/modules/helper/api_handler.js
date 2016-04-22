@@ -2,8 +2,6 @@
 
 class ApiHandler {
     constructor(){
-        this.req = null;
-        this.res = null;
     }
     respond(res, err, data) {
         if (err) {

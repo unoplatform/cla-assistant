@@ -27,7 +27,7 @@ class RootComponent {
 
     constructor(private http: Http) {
         let that = this;
-        http.get('/api/github/user')
+        http.get('/api/v1/github/user')
             .map(res => res.json().data)
             .subscribe(
             function(user) {

@@ -25,7 +25,9 @@ class GithubHandler extends ApiHandler{
         this.req = req;
         this.res = res;
 
-        githubService.callGithub(args, this.respond);
+        githubService.callGithub(args, (err, res, meta) => {
+            this.respond(err, res, meta);
+        });
     }
 }
 

@@ -618,6 +618,7 @@ let testData = {
 {
     'repoId': 1296269,
     'owner': 'octocat',
+    'ownerId': 1,
     'repo': 'Hello-World',
     'token': 'testToken',
     'gist': 'https://gist.github.com/aa5a315d61ae9438b18d'

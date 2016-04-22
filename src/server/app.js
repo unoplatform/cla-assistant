@@ -76,10 +76,7 @@ let bootstrap = function(moduleName, object) {
         return;
     }
     try {
-        if (object === 'api') {
-            app.use('/api/' + moduleName, require(file));
-        }
-        else if (object === 'api_handler') {
+        if (object === 'api_handler') {
             api_handler[moduleName] = require(file);
         }
     } catch (ex) {
@@ -97,23 +94,15 @@ glob.sync(path.join(__dirname, 'modules', '*')).forEach(function(dir) {
 
     console.log(moduleName.bold);
     bootstrap(moduleName, 'api_handler');
-    bootstrap(moduleName, 'api');
 });
 
 app.use('/', require('./modules/authentication/api'));
 app.use('/api', require('./modules/authentication/authentication').isAuthenticated);
+app.use('/api/v1/', require('./api'));
 
 app.get('/', (req, res) => {
-    let filePath;
-    if (req.user) {
-      filePath = path.join(__dirname, '..', 'client', 'index.html');
-    }
-    else {
-      filePath = path.join(__dirname, '..', 'client', 'index.html');
-    }
-
 	res.setHeader('Last-Modified', (new Date()).toUTCString());
-	res.status(200).sendFile(filePath);
+	res.status(200).sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
 
 module.exports = app;
