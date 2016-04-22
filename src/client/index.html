@@ -4,15 +4,15 @@
 <head>
     <!-- <base href="/"/> -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="./node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="./node_modules/systemjs/dist/system.src.js"></script>
-    <script src="./node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="./node_modules/angular2/bundles/angular2.dev.js"></script>
-    <script src="./node_modules/angular2/bundles/http.dev.js"></script>
-    <script src="./node_modules/angular2/bundles/router.dev.js"></script>
+    <script src="/node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="/node_modules/systemjs/dist/system.src.js"></script>
+    <script src="/node_modules/rxjs/bundles/Rx.min.js"></script>
+    <script src="/node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="/node_modules/angular2/bundles/http.min.js"></script>
+    <!-- <script src="/node_modules/angular2/bundles/router.dev.js"></script> -->
 
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/css">
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
   <!-- <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script> -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.js"></script> -->
@@ -33,12 +33,27 @@
         <link href="/client/assets/styles/app.css" rel="stylesheet">
     <script>
     System.config({
-        baseURL: "/",
-        defaultJSExtensions: true,
-        paths: {
-            '*': '/node_modules/*'
-         }
-    });
+      "defaultJSExtensions": true,
+      "packageConfigPaths": [
+        "/node_modules/*/package.json"
+      ],
+      "paths": {
+        "bootstrap": "/bootstrap",
+        "angular2/*": "/angular2/*",
+        "rxjs/*": "/rxjs/*",
+        "app/*": "/app/*",
+        "*": "/node_modules/*"
+      },
+      "packages": {
+        "angular2": {
+          "defaultExtension": false
+        },
+        "rxjs": {
+          "defaultExtension": false
+        }
+      }
+    })
+
     System.import('./client/bootstrap.js').catch(console.log.bind(console));
     </script>
 </head>
