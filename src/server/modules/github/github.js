@@ -1,7 +1,6 @@
 'use strict';
 
 let GitHubApi = require('github');
-let merge = require('merge');
 let github = new GitHubApi({
             protocol: config.server.github.protocol,
             version: config.server.github.version,

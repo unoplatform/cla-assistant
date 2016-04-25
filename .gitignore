@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-src/bower
+doc
 coverage/*
 venv
 .env
