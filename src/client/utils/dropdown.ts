@@ -10,9 +10,9 @@ import {NgModel, FORM_DIRECTIVES} from 'angular2/common';
 export class DropDownComponent {
     @Input() public gist: string;
     public states: Array<string>;
-    public allStates:Array<string>;
+    public allStates: Array<string>;
 
-    private element: any;
+    // private element: any;
 
     // constructor(el: ElementRef) {
     //     this.element = $(el.nativeElement);

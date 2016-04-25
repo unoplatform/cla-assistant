@@ -6,7 +6,7 @@ import {HomeService} from './home/home.service';
 
 @Component({
     directives: [LoginComponent, HomeComponent, NgIf],
-    providers: [HomeService],
+    // providers: [HomeService],
     selector: 'mainroot',
     template: `<login *ngIf="login"></login>
                <home  *ngIf="home" [user]="user"></home>`
@@ -20,14 +20,13 @@ export class RootComponent {
 
     constructor(public homeService: HomeService ) {
       let that = this;
-      homeService.getUser()
-      .subscribe(
-          function(user) {
+      homeService.getUser(
+          (user) => {
               that.user = user;
               that.login = false;
               that.home = true;
           },
-          function(error) {
+          (error) => {
               that.login = true;
               that.home = false;
           }
