@@ -30,8 +30,8 @@ gulp.task('source', () => {
     env('.env.json');
 });
 
-gulp.task('clean', () => {
-    return del(['./dist']);
+gulp.task('clean', (cb) => {
+    return del(['./dist'],cb);
 });
 
 gulp.task('copy-assets',['compile-css','compress-lib'], function() {
@@ -41,10 +41,9 @@ gulp.task('copy-assets',['compile-css','compress-lib'], function() {
 });
 
 gulp.task('compile-css',['clean'],function(){
-      let stream = gulp.src('src/client/assets/styles/*.scss')
-                      .pipe(sass().on('error', sass.logError))
-                      .pipe(gulp.dest('src/client/assets/styles'));
-      return stream;
+       gulp.src('src/client/assets/styles/*.scss')
+              .pipe(sass().on('error', sass.logError))
+              .pipe(gulp.dest('src/client/assets/styles'));
 });
 
 gulp.task('compress-lib', function() {
@@ -63,7 +62,7 @@ gulp.task('compress-lib', function() {
               .pipe(gulp.dest('./dist/client'));
 });
 
-gulp.task('compile', ['copy-assets'], function(){
+gulp.task('compile',function(){
     //compile client files, use ng2template for now to support unit tests, should be separated later
     let tsResult = gulp.src(['./src/client/*.ts', './src/client/**/*.ts','./src/client/**/**/*.ts'])
         .pipe(inlineNg2Template({ base: '//src' }))
@@ -80,7 +79,11 @@ gulp.task('compile', ['copy-assets'], function(){
     .pipe(gulp.dest('./dist/client'));
 });
 
-gulp.task('start', ['source','compile-css','compile'], (cb) => {
+gulp.task('watch', function() {
+    gulp.watch(['./src/client/*', './src/client/**/*','./src/client/**/**/*'], ['compile']);
+});
+
+gulp.task('start', ['source', 'copy-assets','compile','watch'], (cb) => {
     require('./app.js');
     process.on('SIGINT', () => {
         process.exit();
