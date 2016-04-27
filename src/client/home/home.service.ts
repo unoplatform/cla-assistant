@@ -1,37 +1,39 @@
 import {Injectable, Inject} from 'angular2/core';
 import {GithubService} from './../utils/github.service';
+import {Observable} from 'rxjs/Observable';
+// import 'rxjs/Rx';
+// import 'rxjs/add/operator/publish';
+// import 'rxjs/add/operator/share';
 
 @Injectable()
 export class HomeService {
     private _githubService: any;
-    private _userObservable: any;
+    private _user$: any;
     private _user: any;
+    private _userGists$: any;
+
     constructor( @Inject(GithubService) githubService: GithubService) {
         this._githubService = githubService;
+        this._user$ = this._githubService.call('user', 'get');
     }
 
-    public getUser(success: Function, error: Function) {
-        if (this._user) {
-            success(this._user);
-        } else {
-            this._githubService.call('user', 'get')
-                .subscribe(
-                    (user) => {
-                        this._user = user;
-                        success(this._user);
-                    },
-                    error
-            );
-        }
-        // this._userObservable = this._userObservable || this._githubService.call('user', 'get');
-        // return this._userObservable;
+    public getUser() {
+        let self = this;
+        return new Observable((observer) => {
+            function returnUser(user) {
+                self._user = user;
+                observer.next(user);
+            }
+            this._user ? returnUser(this._user) : this._user$.subscribe(returnUser);
+        });
     }
 
     public getUserGists() {
-        // this._userObservable.subscribe((user) => this._user = user);
-        if (this._user) {
-            console.log(this._user);
-        }
-
+        let self = this;
+        this._userGists$ = this.getUser()
+            .flatMap((user:any) => {
+                return self._githubService.call('gists', 'getFromUser', { user: user.login });
+            });
+        return this._userGists$;
     }
 }

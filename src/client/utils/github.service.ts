@@ -16,6 +16,6 @@ export class GithubService {
         return this.http.post('/api/v1/github', body, {headers: headers})
             .map(res => {
                 return res.json().data;
-            });
+            }).share();
     }
 }

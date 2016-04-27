@@ -3,6 +3,7 @@ import {LoginComponent}     from './login/login.component';
 import {HomeComponent} from './home/home.component';
 import {NgIf} from 'angular2/common';
 import {HomeService} from './home/home.service';
+// import {Observable} from 'rxjs/Observable';
 
 @Component({
     directives: [LoginComponent, HomeComponent, NgIf],
@@ -14,13 +15,14 @@ import {HomeService} from './home/home.service';
 
 export class RootComponent {
     // parameters that control visibility of home and the login component
+    // observable$: Observable<any>;
     @Input() public login: boolean;
     @Input() public home: boolean;
-    @Input() public user: JSON;
+    @Input() public user: any;
 
     constructor(public homeService: HomeService ) {
       let that = this;
-      homeService.getUser(
+      homeService.getUser().subscribe(
           (user) => {
               that.user = user;
               that.login = false;
@@ -31,5 +33,10 @@ export class RootComponent {
               that.home = false;
           }
       );
+    //   this.observable$ = new Observable(observer => observer.next('click'));
+      let gists$ = homeService.getUserGists();
+      gists$.subscribe((gists) => {
+          console.log(gists);
+      });
     }
 }

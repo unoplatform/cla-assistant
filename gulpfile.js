@@ -64,7 +64,7 @@ gulp.task('compress-lib', function() {
 
 gulp.task('compile',function(){
     //compile client files, use ng2template for now to support unit tests, should be separated later
-    let tsResult = gulp.src(['./src/client/*.ts', './src/client/**/*.ts','./src/client/**/**/*.ts'])
+    let tsResult = gulp.src(['./src/client/**/**/*.ts'])
         .pipe(inlineNg2Template({ base: '//src' }))
         .pipe(tsc(tscOptions));
 
