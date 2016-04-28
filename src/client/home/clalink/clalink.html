@@ -25,11 +25,18 @@
 			</div>
 			<div class="form-group has-feedback new-link-select-gist-dd-outer">
 
-        <div class="dropdown">
+				<select [(ngModel)]="selectedGist.gist.name">
+				<option *ngFor="#gist of gists$"> {{gist.name}}</option>
+				<!-- <option> option 2</option>
+				<option>myCLA</option> -->
+				</select>
+
+        <!-- <div class="dropdown">
           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             Dropdown
             <span class="caret"></span>
           </button>
+
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -37,7 +44,7 @@
             <li role="separator" class="divider"></li>
             <li><a href="#">Separated link</a></li>
           </ul>
-        </div>
+        </div> -->
 
         <!-- <select>
           <option>CLA 1 </option>

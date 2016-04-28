@@ -1,16 +1,23 @@
 import {HomeComponent} from './home.component';
 import {Component, provide, Input} from 'angular2/core';
 import {DOM} from 'angular2/src/platform/dom/dom_adapter';
+import {HomeService} from '../home/home.service';
+import {GithubService} from '../utils/github.service';
+import {HTTP_PROVIDERS} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
 
+import 'rxjs/Rx';
 
 // impoer Angular2 testing library instead of pure jasmine fuctions
 import {it, describe, expect, TestComponentBuilder, injectAsync, beforeEachProviders}from 'angular2/testing';
 
 export function main() {
     describe('A suite', () => {
-
-
         beforeEachProviders(() => [
+            HTTP_PROVIDERS,
+            provide(GithubService,{ useClass: mockGithubService}),
+            provide(HomeService,{ useClass: mockHomeService}),
+            GithubService,
             provide(Window, { useValue: window })
         ]);
 
@@ -42,5 +49,60 @@ class TestComponent {
         };
     };
 
+
+}
+
+class mockGithubService extends GithubService {
+
+private _mockServiceReturnValue: any;
+private _calledObj: string;
+private _calledFun: string;
+private _calledArgs: JSON;
+
+
+  constructor() {
+    super(null);
+  }
+
+  public call(obj: string, fun: string, args: JSON) {
+    this._calledObj = obj;
+    this._calledFun = fun;
+    this._calledArgs = args;
+
+    return Observable.of(this._mockServiceReturnValue);
+  }
+
+  public setMockServiceReturnValue(value) {
+    this._mockServiceReturnValue = value;
+  }
+
+  public getCalledObj() {
+    return this._calledObj;
+  }
+
+  public getCalledArgs() {
+    return this._calledArgs;
+  }
+
+  public getCalledFun() {
+    return this._calledFun;
+  }
+
+}
+
+
+class mockHomeService extends HomeService{
+
+  constructor(){
+    super(new mockGithubService());
+  }
+
+    public getUser(){
+      return Observable.of({});
+    }
+
+    public getUserGists(){
+      return Observable.of([]);
+    }
 
 }

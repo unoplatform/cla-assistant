@@ -31,8 +31,17 @@ export class HomeService {
     public getUserGists() {
         let self = this;
         this._userGists$ = this.getUser()
-            .flatMap((user:any) => {
-                return self._githubService.call('gists', 'getFromUser', { user: user.login });
+            .flatMap(( user: any ) => {
+              return self._githubService.call('gists', 'getFromUser', { user: user.login })
+                     .map((gists) => {
+                        let transformedGists = [];
+                        transformedGists = gists.map( (gist) => {
+                            return {name : gist.files[Object.keys(gist.files)[0]].filename ? gist.files[Object.keys(gist.files)[0]].filename : Object.keys(gist.files)[0],
+                                      url  : gist.html_url};
+                        });
+
+                    return transformedGists;
+                });
             });
         return this._userGists$;
     }

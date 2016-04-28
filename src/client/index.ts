@@ -34,9 +34,9 @@ export class RootComponent {
           }
       );
     //   this.observable$ = new Observable(observer => observer.next('click'));
-      let gists$ = homeService.getUserGists();
-      gists$.subscribe((gists) => {
-          console.log(gists);
-      });
+      // let gists$ = homeService.getUserGists();
+      // gists$.subscribe((gists) => {
+      //     console.log(gists);
+      // });
     }
 }
