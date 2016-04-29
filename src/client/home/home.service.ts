@@ -11,6 +11,7 @@ export class HomeService {
     private _user$: any;
     private _user: any;
     private _userGists$: any;
+    private _userRepos$: any;
 
     constructor( @Inject(GithubService) githubService: GithubService) {
         this._githubService = githubService;
@@ -24,7 +25,10 @@ export class HomeService {
                 self._user = user;
                 observer.next(user);
             }
-            this._user ? returnUser(this._user) : this._user$.subscribe(returnUser);
+            function handleError(error){
+              observer.error(error);
+            }
+            this._user ? returnUser(this._user) : this._user$.subscribe(returnUser,handleError);
         });
     }
 
@@ -45,4 +49,14 @@ export class HomeService {
             });
         return this._userGists$;
     }
+
+    public getUserRepos() {
+        let self = this;
+        this._userRepos$ = this.getUser()
+            .flatMap(( user: any ) => {
+              return self._githubService.call('repos', 'getFromUser', { user: user.login })
+            });
+        return this._userRepos$;
+    }
+
 }

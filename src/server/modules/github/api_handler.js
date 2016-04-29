@@ -7,27 +7,27 @@ class GithubHandler extends ApiHandler{
     constructor() {
         super();
     }
-    respond(err, data, meta) {
+    respond(err, data, meta, res) {
         let obj = {
             data: data,
             meta: meta
         };
         if (meta && meta.hasNext) {
             githubService.getNext(meta, data, (e, d, m) => {
-                this.respond(e, d, m);
+                this.respond(e, d, m, res);
             });
         } else {
-            super.respond(this.res, err, obj);
+            super.respond(res, err, obj);
         }
     }
     callGithub(req, res) {
         req.args.token = req.user.token;
 
-        this.req = req;
-        this.res = res;
+        // this.req = req;
+        // this.res = res;
 
-        githubService.callGithub(req.args, (err, res, meta) => {
-            this.respond(err, res, meta);
+        githubService.callGithub(req.args, (err, data, meta) => {
+            this.respond(err, data, meta, res);
         });
     }
 }

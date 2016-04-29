@@ -1,5 +1,7 @@
 import {Injectable} from 'angular2/core';
 import { Http, Headers } from 'angular2/http';
+import 'rxjs/add/operator/publish';
+// import 'rxjs/add/operator/refCount';
 
 
 @Injectable()
@@ -16,6 +18,6 @@ export class GithubService {
         return this.http.post('/api/v1/github', body, {headers: headers})
             .map(res => {
                 return res.json().data;
-            }).share();
+            }).publish().refCount();
     }
 }

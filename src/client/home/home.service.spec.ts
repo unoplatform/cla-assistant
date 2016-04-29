@@ -1,3 +1,4 @@
+
 import {provide} from 'angular2/core';
 import {HomeService} from '../home/home.service';
 import {GithubService} from '../utils/github.service';
@@ -50,6 +51,7 @@ export function main() {
             });
 
         });
+
 
       describe('transforming gists', () => {
             let mockGists;
@@ -120,6 +122,48 @@ export function main() {
 
         });
 
+      describe('Repos', () => {
+            let mockRepos;
+            let expectedGists;
+            beforeEach(() => {
+              mockRepos = [
+                {
+                  id:"1",
+                  name:'Org1/Name',
+                  owner: {
+                    login:'user1'
+                  }
+                },
+                {
+                  id:"2",
+                  name:'Org2/Name1',
+                  owner: {
+                    login:'user2'
+                  }
+                },
+              ];
+
+            });
+            it('HomeService: it should return repositories for the user ', done => {
+                let expectedArgs = {
+                  user : 'testUser'
+                };
+
+                this._githubService.setMockServiceReturnValue(mockRepos);
+
+                this._homeService.getUserRepos().subscribe((gists) => {
+                  expect(gists).toEqual(mockRepos);
+                  expect(this._githubService.getCalledObj()).toBe('repos');
+                  expect(this._githubService.getCalledFun()).toBe('getFromUser');
+                  expect(this._githubService.getCalledArgs()).toEqual(expectedArgs);
+                  done();
+                });
+            });
+
+
+        });
+
+
 
     });
 }
@@ -160,5 +204,4 @@ private _calledArgs: JSON;
   public getCalledFun() {
     return this._calledFun;
   }
-
 }

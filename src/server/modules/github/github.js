@@ -28,6 +28,7 @@ class GithubService {
     }
 
     callGithub(args, cb) {
+        console.log('Requesting data',args.obj);
         let obj = args.obj;
         let fun = args.fun;
         let arg = args.arg || {};

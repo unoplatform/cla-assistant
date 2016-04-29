@@ -17,22 +17,24 @@ export class CLALinkComponent {
     @Input() public user: any;
     @Input() public newLink: boolean;
     @Input() public selectedGist: any;
-    @Input() public gists$: any;
+    @Input() public selectedRepo: any;
+    @Input() public gists: any;
+    @Input() public repos: any;
 
-    public selectedRepo = {
-      repo : 'new repo',
-    };
 
     constructor(private homeService: HomeService) {
         this.newLink = false;
-        this.selectedGist = {
-            gist: {
-                name: 'myCLA',
-                url: 'http://www.google.com',
-            },
-        };
+        this.selectedGist = { gist : {}};
+        this.selectedRepo = { repo : {}};
+        // this.selectedGist = {
+        //     gist: {
+        //         name: 'myCLA',
+        //         url: 'http://www.google.com',
+        //     },
+        // };
 
         this.getUserGists();
+        this.getUserRepos();
     }
 
     public isValid( url ) {
@@ -40,12 +42,28 @@ export class CLALinkComponent {
     };
 
     public getUserGists() {
-      // this.gists$ = this.homeService.getUserGists();
         this.homeService.getUserGists().subscribe((gists) => {
-            // console.log(gists);
-            this.gists$ = gists;
+            this.gists = gists;
         });
     }
 
+    public link(){
+      console.log(this.selectedGist.gist);
+    }
+
+    public onGistSelected(){
+      this.selectedGist.gist = this.gists.find(gist => gist.url === this.selectedGist.gist.url);
+    }
+
+    public getUserRepos() {
+        this.homeService.getUserRepos().subscribe((repos) => {
+            this.repos = repos;
+        });
+    }
+
+    public onRepoSelected(){
+      console.log(this.selectedRepo.repo.id);
+      // this.selectedRepo.repo = this.repos.find(repo => repo.id === this.selectedRepo.repo.id);
+    }
 
 }

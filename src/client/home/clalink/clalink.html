@@ -25,41 +25,10 @@
 			</div>
 			<div class="form-group has-feedback new-link-select-gist-dd-outer">
 
-				<select [(ngModel)]="selectedGist.gist.name">
-				<option *ngFor="#gist of gists$"> {{gist.name}}</option>
-				<!-- <option> option 2</option>
-				<option>myCLA</option> -->
+				<select [(ngModel)]="selectedGist.gist.url" (ngModelChange)="onGistSelected()" class="form-control">
+					<option *ngFor="#gist of gists" [value]="gist.url"> {{gist.name}}</option>
 				</select>
 
-        <!-- <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Dropdown
-            <span class="caret"></span>
-          </button>
-
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </div> -->
-
-        <!-- <select>
-          <option>CLA 1 </option>
-          <option>CLA 2 </option>
-        </select> -->
-				<!-- <ui-select ng-model="selectedGist.gist"  theme="selectize">
-					<ui-select-match placeholder="select" allow-clear="true">
-									<button class="fa fa-times clear-button" ng-click="clear($event, 'gist')" ng-show="$select.selected.name"></button>
-						{{$select.selected.name}}
-
-					</ui-select-match>
-					<ui-select-choices group-by="groupDefaultCla" repeat="gist in gists | filter: $select.search" null-option="emptyGist">
-						  <span ng-bind-html="gist.name | highlight: $select.search"></span>
-					</ui-select-choices>
-				</ui-select> -->
 			</div>
 			<div class="new-link-select-gist-sep">- or -</div>
 			<div class="new-link-gist-url-outer">Paste a URL from a Gist</div>
@@ -72,16 +41,9 @@
 		<div class="col-xs-12">
 			<div></div>
 			<div class="form-group has-feedback">
-				<dropdown></dropdown>
-				<!-- <ui-select ng-model="selectedRepo.repo"  theme="selectize">
-					<ui-select-match placeholder="select">
-									<button class="fa fa-times clear-button" ng-click="clear($event, 'repo')" ng-show="$select.selected.name"></button>
-									{{$select.selected.full_name}}</ui-select-match>
-					<ui-select-choices repeat="repo in repos | filter: $select.search |notIn:claRepos">
-						  <span class="octicon" ng-class="{false:'octicon-repo', true:'octicon-repo-forked'}[repo.fork]"/>
-						  <span ng-bind-html="repo.full_name | highlight: $select.search"></span>
-					</ui-select-choices>
-				</ui-select> -->
+				<select [(ngModel)]="selectedRepo.repo.id" (ngModelChange)="onRepoSelected()" class="form-control">
+					<option *ngFor="#repo of repos" [value]="repo.id"> {{repo.full_name}}</option>
+				</select>
 			</div>
 		</div>
 		<!-- <div ng-repeat="error in errorMsg" class="alert alert-danger col-xs-12" role="alert" ng-show="errorMsg.length > 0">
@@ -92,7 +54,7 @@
 	</div>
 
 	<div class="row link-div">
-		<button class="btn btn-info col-xs-12 link-btn" (click)="getUserGists()" bind-disabled="!selectedRepo.repo || !isValid(selectedGist.gist.url)">
+		<button class="btn btn-info col-xs-12 link-btn" (click)="link()" bind-disabled="!selectedRepo.repo || !isValid(selectedGist.gist.url)">
 			<img src="/client/assets/images/link_button.svg" class="link-img">
 			LINK
 		</button>

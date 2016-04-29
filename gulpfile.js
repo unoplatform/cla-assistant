@@ -140,7 +140,7 @@ gulp.task('test-watch', () => {
     gulp.watch(['./src/server/**/**/*.spec.js', './src/server/**/**/*.js'], ['test']);
 });
 
-gulp.task('test-ui', function (done) {
+gulp.task('test-ui', ['compile'], function (done) {
     karma.start({
       configFile: join(process.cwd(), 'karma.conf.js'),
       singleRun: true
