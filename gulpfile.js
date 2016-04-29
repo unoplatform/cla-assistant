@@ -80,7 +80,7 @@ gulp.task('compile',function(){
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['./src/client/*', './src/client/**/*','./src/client/**/**/*'], ['compile']);
+    gulp.watch(['./src/client/**/**/*', './src/client/**/**/*.spec.ts'], ['compile']);
 });
 
 gulp.task('start', ['source', 'copy-assets','compile','watch'], (cb) => {
