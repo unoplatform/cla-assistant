@@ -5,14 +5,25 @@ let router = require('express').Router();
 router.post('/github', (req, res, next) => { api_handler.github.callGithub(req, res, next ); });
 
 /**
- * @api {get} /user/repos Request all (linked) repositories of the logged user
- * @apiName User Repos
+ * @api {get} /repos Request all (linked) repositories of the logged user
+ * @apiName get user linked repositories
  * @apiGroup Repos
  *
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
  */
-router.get('/user/repos', (req, res, next) => { api_handler.repos.getUserRepos(req, res, next); });
+router.get('/repos', (req, res, next) => { api_handler.repos.getUserRepos(req, res, next); });
+
+/**
+ * @api {post} /repos Link repositories with the gist
+ * @apiName Link repositories with the gist
+ * @apiGroup Repos
+
+ * @apiParam {String} gist URL
+ * @apiParam {Object[]} repoId , repo, ownerId, owner
+*
+ */
+router.post('/repos', (req, res, next) => { api_handler.repos.linkRepos(req, res, next); });
 
 /**
  * @api {get} /repos/:repoId Request repository of the logged user

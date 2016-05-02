@@ -51,7 +51,9 @@ export class CLALinkComponent {
       console.log(this.selectedGist.gist);
     }
 
-    public onGistSelected(){
+    public onGistSelected(event){
+      // TODO: check if the entire gist object can be set in the value of "options"
+      this.selectedGist.gist.url = event.target.value;
       this.selectedGist.gist = this.gists.find(gist => gist.url === this.selectedGist.gist.url);
     }
 
@@ -61,9 +63,9 @@ export class CLALinkComponent {
         });
     }
 
-    public onRepoSelected(){
-      console.log(this.selectedRepo.repo.id);
-      // this.selectedRepo.repo = this.repos.find(repo => repo.id === this.selectedRepo.repo.id);
+    public onRepoSelected(event){
+      this.selectedRepo.repo.id = event.target.value;
+      this.selectedRepo.repo = this.repos.find(repo => repo.id === +this.selectedRepo.repo.id);
     }
 
 }

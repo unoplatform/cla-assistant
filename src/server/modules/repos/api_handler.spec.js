@@ -38,23 +38,24 @@ describe('repoHandler', () => {
         repoHandler.respond.restore();
     });
 
-    describe('createRepo', () => {
-        it('should create new DB entry if there is no', () => {
+    describe('linkRepo', () => {
+        it('should create new DB entry if there is none', () => {
+            repoService.create.restore();
+            sinon.stub(repoService, 'create', (args, done) => {
+                assert.equal(args[0].token, 'testToken');
+                done(null, {});
+            });
+
             req.user = {token: 'testToken'};
-            req.args = {
-                repoId: testData.repo.id,
-                repo: testData.repo.name,
-                ownerId: testData.repo.owner.id,
-                owner: testData.repo.owner.login,
-                gist: testData.gist.html_url
-            };
+            req.args = testData.reposCreateMultiple;
 
-            repoHandler.createRepo(req, res);
-
+            repoHandler.linkRepo(req, res);
             assert(repoHandler.respond.called);
-            assert(repoService.create.calledWithMatch({ token: 'testToken' }));
+            assert(repoService.create.calledOnce);
         });
+
     });
+
 
     describe('getRepos', () => {
         it('should get single repo if only one repoId provided', () => {

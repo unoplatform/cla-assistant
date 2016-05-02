@@ -15,13 +15,33 @@ class RepoHandler extends ApiHandler{
             this.respond(res, err, obj);
         });
     }
-    createRepo(req, res) {
-        let args = req.args;
-        args.token = req.user.token;
 
-        repoService.create(args, (err, newRepo) => {
-            this.respond(res, err, newRepo);
+    linkRepo(req, res) {
+        let args = req.args;
+        let token =  req.user.token;
+        let repos ;
+
+        try{
+          repos = args.map( (repo) => {
+             return {
+                   owner: repo.owner,
+                   ownerId: repo.ownerId,
+                   repo: repo.repo,
+                   repoId: repo.repoId,
+                   gist: repo.gist,
+                   token: token
+             };
         });
+
+        repoService.create(repos, (err, obj) => {
+            this.respond(res, err, obj);
+        });
+
+        }
+        catch (exception){
+            this.respond(res, 'Illegal Arguments', obj);
+        }
+        
     }
 }
 

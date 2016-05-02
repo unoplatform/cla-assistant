@@ -38,7 +38,8 @@ module.exports = function(config) {
       { pattern: './dist/client/assets/**/*', watched: false, included: false, served: true },
       { pattern: './dist/client/assets/**/**/*', watched: false, included: false, served: true },
       './src/client/assets/js/edge.5.0.1.min.js',
-      'karma.bootstrap.config.js'
+      'karma.bootstrap.config.js',
+      'dist/client/uiTestData.js'
     ],
 
     // must go along with above, suppress annoying 404 warnings.

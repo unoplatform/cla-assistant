@@ -17,15 +17,8 @@ class Repos {
             repoId: { $in: args.repoId }
         }, done);
     }
-    create(args, done) {
-        ReposModel.create({
-            owner: args.owner,
-            ownerId: args.ownerId,
-            repo: args.repo,
-            repoId: args.repoId,
-            gist: args.gist,
-            token: args.token
-        }, done);
+    create(repos, done) {
+        ReposModel.create(repos, done);
     }
 }
 

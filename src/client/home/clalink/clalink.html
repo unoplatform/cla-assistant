@@ -25,14 +25,14 @@
 			</div>
 			<div class="form-group has-feedback new-link-select-gist-dd-outer">
 
-				<select [(ngModel)]="selectedGist.gist.url" (ngModelChange)="onGistSelected()" class="form-control">
+				<select [ngModel]="selectedGist.gist.name" (change)="onGistSelected($event)" class="form-control" >
 					<option *ngFor="#gist of gists" [value]="gist.url"> {{gist.name}}</option>
 				</select>
 
 			</div>
 			<div class="new-link-select-gist-sep">- or -</div>
 			<div class="new-link-gist-url-outer">Paste a URL from a Gist</div>
-			<input bind-disabled="selectedGist.gist.name" class="form-control" [(ngModel)]="selectedGist.gist.url" placeholder="https://gist.github.com/<your cla gist id>" required/>
+			<input bind-disabled="selectedGist.gist.name" class="form-control" [(ngModel)]="selectedGist.gist.url" placeholder="https://gist.github.com/<your cla gist id>" />
 		</div>
 
 		<h5 class="col-xs-12 new-link-choose-repo-outer" >
@@ -41,7 +41,7 @@
 		<div class="col-xs-12">
 			<div></div>
 			<div class="form-group has-feedback">
-				<select [(ngModel)]="selectedRepo.repo.id" (ngModelChange)="onRepoSelected()" class="form-control">
+				<select [ngModel]="selectedRepo.repo.id" (change)="onRepoSelected($event)" class="form-control">
 					<option *ngFor="#repo of repos" [value]="repo.id"> {{repo.full_name}}</option>
 				</select>
 			</div>
