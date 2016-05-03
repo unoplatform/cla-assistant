@@ -13,7 +13,7 @@ export class HomeService {
     private _userGists$: any;
     private _userRepos$: any;
 
-    constructor( @Inject(GithubService) githubService: GithubService) {
+    constructor( githubService: GithubService) {
         this._githubService = githubService;
         this._user$ = this._githubService.call('user', 'get');
     }

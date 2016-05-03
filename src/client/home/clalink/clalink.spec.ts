@@ -1,84 +1,58 @@
 /// <reference path="../../../../typings/main/ambient/sinon/index.d.ts" />
 
 import {provide} from 'angular2/core';
-import {ClaLinkService} from './clalink.service';
 import {ApiService} from '../../utils/api.service';
+import {ClaLinkComponent} from './clalink.component';
+import {ClaLinkService} from './clalink.service';
+import {GithubService} from './../../utils/github.service';
+import {HomeService} from '../home.service';
 import * as Sinon from 'sinon';
-import {inject, it, describe, expect, TestComponentBuilder, injectAsync, beforeEachProviders, beforeEach} from 'angular2/testing';
+import {TestUtil} from '../../uiTest.service';
+import {it, describe, expect, TestComponentBuilder, ComponentFixture, injectAsync, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
 
 export function main() {
     describe('ClaLinkComponent', () => {
         let claLinkService;
+        let claLinkComponent;
+        let homeService;
+        let testUtil;
+
         beforeEachProviders(() => [
-            // provide(ClaLinkService, { useClass: MockClaLinkService }),
             provide(Window, { useValue: window }),
             ApiService,
             ClaLinkService,
+            HomeService,
+            GithubService,
         ]);
-        beforeEach(inject([ClaLinkService], (_claLinkService) => {
+
+        beforeEach(inject([HomeService], (_homeService: HomeService) => {
+            homeService = _homeService;
+            testUtil = new TestUtil();
+            Sinon.stub(homeService, 'getUserGists', () => {
+                return testUtil.getObservable('');
+            });
+            Sinon.stub(homeService, 'getUserRepos', () => {
+                return testUtil.getObservable('');
+            });
+
+        }));
+        beforeEach(inject([ClaLinkService, TestComponentBuilder], (_claLinkService: ClaLinkService, tcb: TestComponentBuilder) => {
             claLinkService = _claLinkService;
+            let promise = tcb
+                .overrideProviders(ClaLinkComponent, [provide(HomeService, {useValue: homeService})])
+                .createAsync(ClaLinkComponent);
+            promise.then((fixture) => {
+                claLinkComponent = fixture.componentInstance;
+            });
         }));
 
         it('should greet the logged in user', () => {
             Sinon.stub(claLinkService, 'linkRepos', (repos, gist) => {
                 console.log('YEAH!');
-            } );
+            });
+
+            // claLinkComponent.link(null, null);
+            // expect(claLinkService.linkRepos.called).toBe(true);
         });
     });
 }
-
-
-// class MockClaLinkService extends ClaLinkService {
-
-// private _mockServiceReturnValue: any;
-// private _calledObj: string;
-// private _calledFun: string;
-// private _calledArgs: JSON;
-
-
-//   constructor() {
-//     super(null);
-//   }
-
-//   public call(obj: string, fun: string, args: JSON) {
-//     this._calledObj = obj;
-//     this._calledFun = fun;
-//     this._calledArgs = args;
-
-//     return Observable.of(this._mockServiceReturnValue);
-//   }
-
-//   public setMockServiceReturnValue(value) {
-//     this._mockServiceReturnValue = value;
-//   }
-
-//   public getCalledObj() {
-//     return this._calledObj;
-//   }
-
-//   public getCalledArgs() {
-//     return this._calledArgs;
-//   }
-
-//   public getCalledFun() {
-//     return this._calledFun;
-//   }
-
-// }
-
-
-// class MockHomeService extends HomeService {
-
-//   constructor() {
-//     super(new MockGithubService());
-//   }
-
-//     public getUser() {
-//       return Observable.of({});
-//     }
-
-//     public getUserGists() {
-//       return Observable.of([]);
-//     }
-
-// }

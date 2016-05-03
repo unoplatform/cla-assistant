@@ -6,7 +6,7 @@ import {ApiService} from '../../utils/api.service';
 export class ClaLinkService {
     private _apiService: any;
 
-    constructor( @Inject(ApiService) apiService: ApiService) {
+    constructor( apiService: ApiService) {
         this._apiService = apiService;
     }
 

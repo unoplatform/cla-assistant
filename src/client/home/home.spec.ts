@@ -3,6 +3,7 @@ import {Component, provide, Input} from 'angular2/core';
 import {DOM} from 'angular2/src/platform/dom/dom_adapter';
 import {HomeService} from '../home/home.service';
 import {GithubService} from '../utils/github.service';
+import {ApiService} from '../utils/api.service';
 import {Observable} from 'rxjs/Observable';
 import {HomeComponent} from '../home/home.component';
 
@@ -18,6 +19,7 @@ export function main() {
             provide(GithubService, { useClass: MockGithubService }),
             provide(HomeService, { useClass: MockHomeService }),
             GithubService,
+            ApiService,
             provide(Window, { useValue: window })
         ]);
 
@@ -35,6 +37,7 @@ export function main() {
 
 @Component({
     directives: [HomeComponent],
+    providers: [ApiService],
     selector: 'test-cmp',
     template: '<home [user]="user"></home>'
 })

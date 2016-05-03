@@ -84,9 +84,9 @@
         "semicolon": true,
         "switch-default": true,
         "trailing-comma": [
-            false,
+            true,
             {
-              "multiline": "always",
+              "multiline": "never",
               "singleline": "never"
             }
         ],

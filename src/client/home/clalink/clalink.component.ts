@@ -5,6 +5,7 @@ import {Component, Input} from 'angular2/core';
 import {NgModel, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 import {HomeService} from '../home.service';
 import {ClaLinkService} from './clalink.service';
+// import {ApiService} from '../../utils/api.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ import {ClaLinkService} from './clalink.service';
     templateUrl: '/client/home/clalink/clalink.html'
 })
 
-export class CLALinkComponent {
+export class ClaLinkComponent {
     @Input() public user: any;
     @Input() public newLink: boolean;
     @Input() public selectedGist: any;
@@ -23,10 +24,11 @@ export class CLALinkComponent {
     @Input() public repos: any;
 
 
-    constructor(private homeService: HomeService) {
+    constructor(private homeService: HomeService, private claLinkService: ClaLinkService) {
         this.newLink = false;
         this.selectedGist = { gist: {} };
-        this.selectedRepo = { repo: {} };
+        this.selectedRepo = { repos: [],
+                               repo: {} };
         // this.selectedGist = {
         //     gist: {
         //         name: 'myCLA',
@@ -48,10 +50,8 @@ export class CLALinkComponent {
         });
     }
 
-    public link() {
-        console.log(this.selectedGist.gist);
-
-        // console.log(this.selected);
+    public link(repos, gist) {
+        this.claLinkService.linkRepos(repos, gist);
     }
 
     public onGistSelected(event) {
@@ -68,7 +68,8 @@ export class CLALinkComponent {
 
     public onRepoSelected(event) {
         this.selectedRepo.repo.id = event.target.value;
-        this.selectedRepo.repo = this.repos.find(repo => repo.id === +this.selectedRepo.repo.id);
+        this.selectedRepo.repos = [];
+        this.selectedRepo.repos.push(this.repos.find(repo => repo.id === +this.selectedRepo.repo.id));
     }
 
 }
