@@ -175,7 +175,7 @@ class MockGithubService extends GithubService {
 
 
     constructor() {
-        super(null);
+        super();
     }
 
     public call(obj: string, fun: string, args: JSON) {

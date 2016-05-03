@@ -52,7 +52,7 @@ class MockApiService extends ApiService {
 
 
     constructor() {
-        super(null);
+        super();
     }
 
     public post(url: string, body: any) {

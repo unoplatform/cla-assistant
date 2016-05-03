@@ -4,10 +4,12 @@ declare var selectedRepo: any;
 import {Component, Input} from 'angular2/core';
 import {NgModel, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 import {HomeService} from '../home.service';
+import {ClaLinkService} from './clalink.service';
 
 
 @Component({
     directives: [FORM_DIRECTIVES, NgModel, NgFor],
+    providers: [ClaLinkService],
     selector: 'cla-link',
     templateUrl: '/client/home/clalink/clalink.html'
 })
@@ -23,8 +25,8 @@ export class CLALinkComponent {
 
     constructor(private homeService: HomeService) {
         this.newLink = false;
-        this.selectedGist = { gist : {}};
-        this.selectedRepo = { repo : {}};
+        this.selectedGist = { gist: {} };
+        this.selectedRepo = { repo: {} };
         // this.selectedGist = {
         //     gist: {
         //         name: 'myCLA',
@@ -36,8 +38,8 @@ export class CLALinkComponent {
         this.getUserRepos();
     }
 
-    public isValid( url ) {
-      return true;
+    public isValid(url) {
+        return true;
     };
 
     public getUserGists() {
@@ -47,14 +49,15 @@ export class CLALinkComponent {
     }
 
     public link() {
-      console.log(this.selectedGist.gist);
-      // console.log(this.selected);
+        console.log(this.selectedGist.gist);
+
+        // console.log(this.selected);
     }
 
     public onGistSelected(event) {
-      // todo: check if the entire gist object can be set in the value of "options"
-      this.selectedGist.gist.url = event.target.value;
-      this.selectedGist.gist = this.gists.find(gist => gist.url === this.selectedGist.gist.url);
+        // todo: check if the entire gist object can be set in the value of "options"
+        this.selectedGist.gist.url = event.target.value;
+        this.selectedGist.gist = this.gists.find(gist => gist.url === this.selectedGist.gist.url);
     }
 
     public getUserRepos() {
@@ -64,8 +67,8 @@ export class CLALinkComponent {
     }
 
     public onRepoSelected(event) {
-      this.selectedRepo.repo.id = event.target.value;
-      this.selectedRepo.repo = this.repos.find(repo => repo.id === +this.selectedRepo.repo.id);
+        this.selectedRepo.repo.id = event.target.value;
+        this.selectedRepo.repo = this.repos.find(repo => repo.id === +this.selectedRepo.repo.id);
     }
 
 }

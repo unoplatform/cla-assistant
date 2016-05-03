@@ -1,11 +1,16 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Injector} from 'angular2/core';
+import {HTTP_PROVIDERS} from 'angular2/http';
+
 import { Http, Headers } from 'angular2/http';
 import 'rxjs/add/operator/publish';
 
+let injector = Injector.resolveAndCreate([HTTP_PROVIDERS]);
 
 @Injectable()
 export class ApiService {
-    constructor(private http: Http) {
+    private http: Http;
+    constructor() {
+        this.http = injector.get(Http);
     }
 
     public post(url: string, body: any) {
