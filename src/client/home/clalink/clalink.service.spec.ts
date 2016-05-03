@@ -4,6 +4,7 @@ import {ClaLinkService} from './clalink.service';
 import {ApiService} from '../../utils/api.service';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
+import {TestUtil} from '../../uiTest.service';
 
 
 // impoer Angular2 testing library instead of pure jasmine fuctions
@@ -14,26 +15,27 @@ export function main() {
 
         beforeEachProviders(() => [
             HTTP_PROVIDERS,
-            provide(ApiService, { useClass: mockApiService }),
+            provide(ApiService, { useClass: MockApiService }),
             provide(Window, { useValue: window })
         ]);
 
         beforeEach(inject([ApiService], (apiService) => {
             this._apiService = apiService;
             this._claLinkService = new ClaLinkService(this._apiService);
+            this._testUtil = new TestUtil();
         }));
 
         it('CLALinkService: it should call our server', done => {
-            this._claLinkService.linkRepos(testData.githubRepos).subscribe(() => {
+            this._claLinkService.linkRepos(this._testUtil.data.githubRepos).subscribe(() => {
                 expect(this._apiService.getCalledUrl()).toBe('repos');
                 done();
             });
         });
 
         it('CLALinkService: it should call our server with new arguments', done => {
-            this._claLinkService.linkRepos(testData.githubRepos, testData.gistUrl).subscribe(() => {
+            this._claLinkService.linkRepos(this._testUtil.data.githubRepos, this._testUtil.data.gistUrl).subscribe(() => {
                 expect(this._apiService.getCalledUrl()).toBe('repos');
-                expect(this._apiService.getCalledBody()[0].gist).toBe(testData.gistUrl);
+                expect(this._apiService.getCalledBody()[0].gist).toBe(this._testUtil.data.gistUrl);
                 done();
             });
         });
@@ -42,7 +44,7 @@ export function main() {
 }
 
 
-class mockApiService extends ApiService {
+class MockApiService extends ApiService {
 
     private _mockServiceReturnValue: any;
     private _calledURL: string;

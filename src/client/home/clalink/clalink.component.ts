@@ -3,12 +3,11 @@ declare var selectedRepo: any;
 
 import {Component, Input} from 'angular2/core';
 import {NgModel, NgFor, FORM_DIRECTIVES} from 'angular2/common';
-import {DropDownComponent} from '../../utils/dropdown';
 import {HomeService} from '../home.service';
 
 
 @Component({
-    directives: [FORM_DIRECTIVES, NgModel, DropDownComponent, NgFor],
+    directives: [FORM_DIRECTIVES, NgModel, NgFor],
     selector: 'cla-link',
     templateUrl: '/client/home/clalink/clalink.html'
 })
@@ -47,12 +46,13 @@ export class CLALinkComponent {
         });
     }
 
-    public link(){
+    public link() {
       console.log(this.selectedGist.gist);
+      // console.log(this.selected);
     }
 
-    public onGistSelected(event){
-      // TODO: check if the entire gist object can be set in the value of "options"
+    public onGistSelected(event) {
+      // todo: check if the entire gist object can be set in the value of "options"
       this.selectedGist.gist.url = event.target.value;
       this.selectedGist.gist = this.gists.find(gist => gist.url === this.selectedGist.gist.url);
     }
@@ -63,7 +63,7 @@ export class CLALinkComponent {
         });
     }
 
-    public onRepoSelected(event){
+    public onRepoSelected(event) {
       this.selectedRepo.repo.id = event.target.value;
       this.selectedRepo.repo = this.repos.find(repo => repo.id === +this.selectedRepo.repo.id);
     }

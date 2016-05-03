@@ -15,8 +15,8 @@ export function main() {
     describe('A suite', () => {
         beforeEachProviders(() => [
             HTTP_PROVIDERS,
-            provide(GithubService,{ useClass: mockGithubService}),
-            provide(HomeService,{ useClass: mockHomeService}),
+            provide(GithubService, { useClass: MockGithubService }),
+            provide(HomeService, { useClass: MockHomeService }),
             GithubService,
             provide(Window, { useValue: window })
         ]);
@@ -52,7 +52,7 @@ class TestComponent {
 
 }
 
-class mockGithubService extends GithubService {
+class MockGithubService extends GithubService {
 
 private _mockServiceReturnValue: any;
 private _calledObj: string;
@@ -91,17 +91,17 @@ private _calledArgs: JSON;
 }
 
 
-class mockHomeService extends HomeService{
+class MockHomeService extends HomeService {
 
-  constructor(){
-    super(new mockGithubService());
+  constructor() {
+    super(new MockGithubService());
   }
 
-    public getUser(){
+    public getUser() {
       return Observable.of({});
     }
 
-    public getUserGists(){
+    public getUserGists() {
       return Observable.of([]);
     }
 

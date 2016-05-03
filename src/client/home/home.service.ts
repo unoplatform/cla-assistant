@@ -25,10 +25,10 @@ export class HomeService {
                 self._user = user;
                 observer.next(user);
             }
-            function handleError(error){
+            function handleError( error ) {
               observer.error(error);
             }
-            this._user ? returnUser(this._user) : this._user$.subscribe(returnUser,handleError);
+            this._user ? returnUser(this._user) : this._user$.subscribe(returnUser, handleError);
         });
     }
 
@@ -55,7 +55,7 @@ export class HomeService {
         let self = this;
         this._userRepos$ = this.getUser()
             .flatMap(( user: any ) => {
-              return self._githubService.call('repos', 'getFromUser', { user: user.login })
+              return self._githubService.call( 'repos', 'getFromUser', { user: user.login });
             });
         return this._userRepos$;
     }

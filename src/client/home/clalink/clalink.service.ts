@@ -1,6 +1,5 @@
 import {Injectable, Inject} from 'angular2/core';
 import {ApiService} from '../../utils/api.service';
-import {Observable} from 'rxjs/Observable';
 
 
 @Injectable()
@@ -12,7 +11,7 @@ export class ClaLinkService {
     }
 
     public linkRepos(repos, gistUrl) {
-        repos.map((repo) =>{
+        repos.map((repo) => {
           repo.repoId = repo.id;
           repo.repo = repo.full_name;
           repo.ownerId = repo.owner.id;
@@ -20,7 +19,7 @@ export class ClaLinkService {
           repo.gist = gistUrl;
         });
 
-        return this._apiService.post('repos',repos);
+        return this._apiService.post('repos', repos);
     }
 
 }

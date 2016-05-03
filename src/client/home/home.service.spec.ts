@@ -17,7 +17,7 @@ export function main() {
         beforeEachProviders(() => [
             HTTP_PROVIDERS,
             HomeService,
-            provide(GithubService, { useClass: mockGithubService }),
+            provide(GithubService, { useClass: MockGithubService }),
             provide(Window, { useValue: window })
         ]);
 
@@ -122,18 +122,17 @@ export function main() {
 
         describe('Repos', () => {
             let mockRepos;
-            let expectedGists;
             beforeEach(() => {
                 mockRepos = [
                     {
-                        id: "1",
+                        id: '1',
                         name: 'Org1/Name',
                         owner: {
                             login: 'user1'
                         }
                     },
                     {
-                        id: "2",
+                        id: '2',
                         name: 'Org2/Name1',
                         owner: {
                             login: 'user2'
@@ -167,7 +166,7 @@ export function main() {
 }
 
 
-class mockGithubService extends GithubService {
+class MockGithubService extends GithubService {
 
     private _mockServiceReturnValue: any;
     private _calledObj: string;
