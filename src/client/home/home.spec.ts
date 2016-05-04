@@ -3,9 +3,10 @@ import {Component, provide, Input} from 'angular2/core';
 import {DOM} from 'angular2/src/platform/dom/dom_adapter';
 import {HomeService} from '../home/home.service';
 import {GithubService} from '../utils/github.service';
-import {ApiService} from '../utils/api.service';
 import {Observable} from 'rxjs/Observable';
 import {HomeComponent} from '../home/home.component';
+import {RepoComponent} from '../home/repo/repo.component';
+import {ClaLinkComponent} from '../home/clalink/clalink.component';
 
 import 'rxjs/Rx';
 
@@ -18,26 +19,25 @@ export function main() {
             HTTP_PROVIDERS,
             provide(GithubService, { useClass: MockGithubService }),
             provide(HomeService, { useClass: MockHomeService }),
-            GithubService,
-            ApiService,
             provide(Window, { useValue: window })
         ]);
 
         it('should greet the logged in user', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                return tcb.createAsync(TestComponent)
-                    .then(rootTC => {
-                        rootTC.detectChanges();
-                        let appDOMEl = rootTC.debugElement.nativeElement;
-                        let text = (DOM.querySelector(appDOMEl, '.navbar-text-hide').textContent).trim();
-                        expect(text).toEqual('Hey, UserName!');
-                    });
+                return tcb.overrideDirective(HomeComponent,RepoComponent,MockRepoComponent)
+                          .overrideDirective(HomeComponent,ClaLinkComponent,MockClaLinkComponent)
+                          .createAsync(TestComponent)
+                          .then(rootTC => {
+                              rootTC.detectChanges();
+                              let appDOMEl = rootTC.debugElement.nativeElement;
+                              let text = (DOM.querySelector(appDOMEl, '.navbar-text-hide').textContent).trim();
+                              expect(text).toEqual('Hey, UserName!');
+                          });
             }));
     });
 }
 
 @Component({
     directives: [HomeComponent],
-    providers: [ApiService],
     selector: 'test-cmp',
     template: '<home [user]="user"></home>'
 })
@@ -51,9 +51,22 @@ class TestComponent {
             login: 'UserName'
         };
     };
-
-
 }
+
+@Component({
+    selector: 'linked-repositories',
+    template: '<div> this is linked repos </div>'
+})
+class MockRepoComponent {
+}
+
+@Component({
+    selector: 'cla-link',
+    template: '<div> this is cla link component </div>'
+})
+class MockClaLinkComponent {
+}
+
 
 class MockGithubService extends GithubService {
 

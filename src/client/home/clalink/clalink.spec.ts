@@ -10,6 +10,7 @@ import * as Sinon from 'sinon';
 import {TestUtil} from '../../uiTest.service';
 import {it, describe, expect, TestComponentBuilder, ComponentFixture, injectAsync, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
 
+
 export function main() {
     describe('ClaLinkComponent', () => {
         let claLinkService;
@@ -19,14 +20,14 @@ export function main() {
 
         beforeEachProviders(() => [
             provide(Window, { useValue: window }),
-            ApiService,
-            ClaLinkService,
             HomeService,
             GithubService,
         ]);
 
         beforeEach(inject([HomeService], (_homeService: HomeService) => {
             homeService = _homeService;
+            claLinkService = new ClaLinkService(null);
+
             testUtil = new TestUtil();
             Sinon.stub(homeService, 'getUserGists', () => {
                 return testUtil.getObservable('');
@@ -35,24 +36,25 @@ export function main() {
                 return testUtil.getObservable('');
             });
 
+            Sinon.stub(claLinkService, 'linkRepos', (repos, gist) => {
+                console.log('YEAH!');
+            });
+
         }));
-        beforeEach(inject([ClaLinkService, TestComponentBuilder], (_claLinkService: ClaLinkService, tcb: TestComponentBuilder) => {
-            claLinkService = _claLinkService;
-            let promise = tcb
-                .overrideProviders(ClaLinkComponent, [provide(HomeService, {useValue: homeService})])
-                .createAsync(ClaLinkComponent);
-            promise.then((fixture) => {
+        beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+            tcb.overrideProviders(ClaLinkComponent, [
+                                                      provide(HomeService, { useValue: homeService} ),
+                                                      provide(ClaLinkService, { useValue : claLinkService} )
+                                                    ])
+              .createAsync(ClaLinkComponent)
+              .then((fixture) => {
                 claLinkComponent = fixture.componentInstance;
             });
         }));
 
         it('should greet the logged in user', () => {
-            Sinon.stub(claLinkService, 'linkRepos', (repos, gist) => {
-                console.log('YEAH!');
-            });
-
-            // claLinkComponent.link(null, null);
-            // expect(claLinkService.linkRepos.called).toBe(true);
+            claLinkComponent.link(null, null);
+            expect(claLinkService.linkRepos.called).toBe(true);
         });
     });
 }

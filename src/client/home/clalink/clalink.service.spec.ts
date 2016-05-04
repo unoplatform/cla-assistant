@@ -5,6 +5,7 @@ import {ApiService} from '../../utils/api.service';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import {TestUtil} from '../../uiTest.service';
+// import {sinon} from 'sinon.'
 
 
 // impoer Angular2 testing library instead of pure jasmine fuctions

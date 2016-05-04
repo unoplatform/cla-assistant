@@ -1,16 +1,20 @@
 // declare var selectedGist: any;
 declare var selectedRepo: any;
 
-import {Component, Input} from 'angular2/core';
+import {Component, Input, provide} from 'angular2/core';
 import {NgModel, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 import {HomeService} from '../home.service';
 import {ClaLinkService} from './clalink.service';
-// import {ApiService} from '../../utils/api.service';
+import {ApiService} from '../../utils/api.service';
 
 
 @Component({
     directives: [FORM_DIRECTIVES, NgModel, NgFor],
-    providers: [ClaLinkService],
+    providers: [
+        HomeService,
+        provide(ClaLinkService, {
+            deps: [ApiService]
+        })],
     selector: 'cla-link',
     templateUrl: '/client/home/clalink/clalink.html'
 })
@@ -27,15 +31,10 @@ export class ClaLinkComponent {
     constructor(private homeService: HomeService, private claLinkService: ClaLinkService) {
         this.newLink = false;
         this.selectedGist = { gist: {} };
-        this.selectedRepo = { repos: [],
-                               repo: {} };
-        // this.selectedGist = {
-        //     gist: {
-        //         name: 'myCLA',
-        //         url: 'http://www.google.com',
-        //     },
-        // };
-
+        this.selectedRepo = {
+            repos: [],
+            repo: {}
+        };
         this.getUserGists();
         this.getUserRepos();
     }
