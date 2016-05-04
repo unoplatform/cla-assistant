@@ -1,9 +1,6 @@
 import {Injectable, Inject} from 'angular2/core';
 import {GithubService} from './../utils/github.service';
 import {Observable} from 'rxjs/Observable';
-// import 'rxjs/Rx';
-// import 'rxjs/add/operator/publish';
-// import 'rxjs/add/operator/share';
 
 @Injectable()
 export class HomeService {

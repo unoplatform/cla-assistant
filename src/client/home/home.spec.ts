@@ -1,9 +1,5 @@
-import {HTTP_PROVIDERS} from 'angular2/http';
 import {Component, provide, Input} from 'angular2/core';
 import {DOM} from 'angular2/src/platform/dom/dom_adapter';
-import {HomeService} from '../home/home.service';
-import {GithubService} from '../utils/github.service';
-import {Observable} from 'rxjs/Observable';
 import {HomeComponent} from '../home/home.component';
 import {RepoComponent} from '../home/repo/repo.component';
 import {ClaLinkComponent} from '../home/clalink/clalink.component';
@@ -16,23 +12,21 @@ import {it, describe, expect, TestComponentBuilder, injectAsync, beforeEachProvi
 export function main() {
     describe('A suite', () => {
         beforeEachProviders(() => [
-            HTTP_PROVIDERS,
-            provide(GithubService, { useClass: MockGithubService }),
-            provide(HomeService, { useClass: MockHomeService }),
             provide(Window, { useValue: window })
         ]);
 
         it('should greet the logged in user', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                return tcb.overrideDirective(HomeComponent,RepoComponent,MockRepoComponent)
-                          .overrideDirective(HomeComponent,ClaLinkComponent,MockClaLinkComponent)
-                          .createAsync(TestComponent)
-                          .then(rootTC => {
-                              rootTC.detectChanges();
-                              let appDOMEl = rootTC.debugElement.nativeElement;
-                              let text = (DOM.querySelector(appDOMEl, '.navbar-text-hide').textContent).trim();
-                              expect(text).toEqual('Hey, UserName!');
-                          });
-            }));
+            return tcb
+                .overrideDirective(HomeComponent, RepoComponent, MockRepoComponent)
+                .overrideDirective(HomeComponent, ClaLinkComponent, MockClaLinkComponent)
+                .createAsync(TestComponent)
+                .then(rootTC => {
+                    rootTC.detectChanges();
+                    let appDOMEl = rootTC.debugElement.nativeElement;
+                    let text = (DOM.querySelector(appDOMEl, '.navbar-text-hide').textContent).trim();
+                    expect(text).toEqual('Hey, UserName!');
+                });
+        }));
     });
 }
 
@@ -65,60 +59,4 @@ class MockRepoComponent {
     template: '<div> this is cla link component </div>'
 })
 class MockClaLinkComponent {
-}
-
-
-class MockGithubService extends GithubService {
-
-private _mockServiceReturnValue: any;
-private _calledObj: string;
-private _calledFun: string;
-private _calledArgs: JSON;
-
-
-  constructor() {
-    super();
-  }
-
-  public call(obj: string, fun: string, args: JSON) {
-    this._calledObj = obj;
-    this._calledFun = fun;
-    this._calledArgs = args;
-
-    return Observable.of(this._mockServiceReturnValue);
-  }
-
-  public setMockServiceReturnValue(value) {
-    this._mockServiceReturnValue = value;
-  }
-
-  public getCalledObj() {
-    return this._calledObj;
-  }
-
-  public getCalledArgs() {
-    return this._calledArgs;
-  }
-
-  public getCalledFun() {
-    return this._calledFun;
-  }
-
-}
-
-
-class MockHomeService extends HomeService {
-
-  constructor() {
-    super(new MockGithubService());
-  }
-
-    public getUser() {
-      return Observable.of({});
-    }
-
-    public getUserGists() {
-      return Observable.of([]);
-    }
-
 }

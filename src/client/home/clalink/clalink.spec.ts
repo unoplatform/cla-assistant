@@ -1,7 +1,6 @@
 /// <reference path="../../../../typings/main/ambient/sinon/index.d.ts" />
 
 import {provide} from 'angular2/core';
-import {ApiService} from '../../utils/api.service';
 import {ClaLinkComponent} from './clalink.component';
 import {ClaLinkService} from './clalink.service';
 import {GithubService} from './../../utils/github.service';
@@ -24,11 +23,15 @@ export function main() {
             GithubService,
         ]);
 
-        beforeEach(inject([HomeService], (_homeService: HomeService) => {
-            homeService = _homeService;
-            claLinkService = new ClaLinkService(null);
-
+        beforeEach(inject([GithubService], (githubService) => {
             testUtil = new TestUtil();
+            Sinon.stub(githubService, 'call', (o, f, a) => {
+                return testUtil.getObservable(null);
+            });
+
+            claLinkService = new ClaLinkService(null);
+            homeService = new HomeService(githubService);
+
             Sinon.stub(homeService, 'getUserGists', () => {
                 return testUtil.getObservable('');
             });

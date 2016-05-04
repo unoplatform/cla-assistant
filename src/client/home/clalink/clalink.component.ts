@@ -6,15 +6,21 @@ import {NgModel, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 import {HomeService} from '../home.service';
 import {ClaLinkService} from './clalink.service';
 import {ApiService} from '../../utils/api.service';
+import {GithubService} from '../../utils/github.service';
 
 
 @Component({
     directives: [FORM_DIRECTIVES, NgModel, NgFor],
     providers: [
-        HomeService,
-        provide(ClaLinkService, {
-            deps: [ApiService]
-        })],
+        provide(
+            ClaLinkService, {
+                deps: [ApiService]
+            }),
+        provide(
+            HomeService, {
+                deps: [GithubService]
+            })
+    ],
     selector: 'cla-link',
     templateUrl: '/client/home/clalink/clalink.html'
 })

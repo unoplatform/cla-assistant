@@ -48,6 +48,24 @@ export class TestUtil {
                         'login': 'owner name2'
                     }
                 }
+            ],
+            mockGists: [
+                {
+                    files: {
+                        key1: {
+                            filename: 'keyvalue1'
+                        }
+                    },
+                    html_url: 'http://gist1'
+                },
+                {
+                    files: {
+                        key2: {
+                            filename: 'keyvalue2'
+                        }
+                    },
+                    html_url: 'http://gist2'
+                },
             ]
         };
     }
