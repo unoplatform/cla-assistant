@@ -7,7 +7,7 @@ module.factory('linkItemService', ['$RPCService',
                 type = options;
                 options = item;
             }
-            var newItem = {
+            const newItem = {
                 gist: options.gist.url,
                 sharedGist: options.sharedGist,
                 whiteListPattern: options.whiteListPattern,
@@ -29,16 +29,16 @@ module.factory('linkItemService', ['$RPCService',
         }
 
         return {
-            createLink: function (item, options) {
-                var type = item.full_name ? 'repo' : 'org';
-                var newItem = createNewItem(item, options, type);
+            createLink: (item, options) => {
+                const type = item.full_name ? 'repo' : 'org';
+                const newItem = createNewItem(item, options, type);
 
                 return $RPCService.call(type, 'create', newItem);
             },
 
-            updateLink: function (item) {
-                var type = item.repoId ? 'repo' : 'org';
-                var newItem = createNewItem(item, type);
+            updateLink: (item) => {
+                const type = item.repoId ? 'repo' : 'org';
+                const newItem = createNewItem(item, type);
 
                 return $RPCService.call(type, 'update', newItem);
             }
