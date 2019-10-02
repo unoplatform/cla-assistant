@@ -1,13 +1,13 @@
 'use strict';
-var reservedGistFileNames = ['metadata'];
+const reservedGistFileNames = ['metadata'];
 
 module.factory('utils', ['$q', '$RPCService',
     function ($q, $RPCService) {
         return {
             getGistAttribute: function (gist, attribute) {
-                var attr;
+                let attr;
                 if (gist && gist.files) {
-                    Object.keys(gist.files).some(function (file) {
+                    Object.keys(gist.files).some(file => {
                         if (reservedGistFileNames.indexOf(file) < 0) {
                             attr = file;
 
@@ -20,9 +20,9 @@ module.factory('utils', ['$q', '$RPCService',
                 return attr;
             },
             getGistContent: function (repoId, orgId, gist_url, gist_version) {
-                var deferred = $q.defer();
-                var gistContent = {};
-                var args = {
+                const deferred = $q.defer();
+                const gistContent = {};
+                const args = {
                     repoId: repoId,
                     orgId: orgId
                 };
@@ -32,13 +32,13 @@ module.factory('utils', ['$q', '$RPCService',
                         gist_version: gist_version
                     };
                 }
-                $RPCService.call('cla', 'get', args, function (err, cla) {
+                $RPCService.call('cla', 'get', args, (err, cla) => {
                     if (!err) {
                         gistContent.claText = cla.value.raw;
                         gistContent.updatedAt = cla.value.updatedAt;
                         if (cla.value.meta) {
                             try {
-                                var metaString = cla.value.meta.replace(/<p>|<\/p>|\n|\t/g, '');
+                                const metaString = cla.value.meta.replace(/<p>|<\/p>|\n|\t/g, '');
                                 gistContent.customFields = JSON.parse(metaString);
                                 gistContent.customKeys = Object.keys(gistContent.customFields);
                                 gistContent.hasCustomFields = true;
