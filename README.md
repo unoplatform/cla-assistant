@@ -18,7 +18,7 @@ Contributor License Agreement assistant
 ===
 Streamline your workflow and let CLA assistant handle the legal side of contributions to a repository for you. CLA assistant enables contributors to sign CLAs from within a pull request.
 
-To get started, simply store your CLA as a GitHub Gist file then link it with the repository/organisation in CLA assistant. Then sit back and relax while CLA assistant:
+To get started, simply store your CLA as a GitHub Gist file then link it with the repository/organization in CLA assistant. Then sit back and relax while CLA assistant:
 
 - Comments on each opened pull request to ask the contributor to sign the CLA
 - Allows contributors to sign a CLA from within a pull request
@@ -98,16 +98,16 @@ You can see the list of signees on the user interface. There is also a possibili
 We're no lawyers, but we can suggest using http://contributoragreements.org/ for a fill-in-the-blank approach to creating a CLA tailored to your needs.
 
 #### Who can I contact for help?
-In case of problems or any further questions, please open an issue in GitHub. We always appreciate helpful tips and support for the project.
+In case of problems or any further questions, please open an issue on GitHub. We always appreciate helpful tips and support for the project.
 
 #### How can I contribute?
-You want to contribute to CLA Assistant? Welcome! Please read [here](https://github.com/cla-assistant/cla-assistant/blob/master/CONTRIBUTING.md).
+Do you want to contribute to CLA Assistant? Welcome! Please read [here](https://github.com/cla-assistant/cla-assistant/blob/master/CONTRIBUTING.md).
 
 #### Can I whitelist bot users?
 Since there's no way for bot users (such as Dependabot or Greenkeeper) to sign a CLA, you may want to whitelist them. You can do so by importing their names (in this case `dependabot[bot]` and `greenkeeper[bot]`) in the CLA assistant dashboard.
 
 
-Setup your own instance of CLA assistant
+Set up your own instance of CLA assistant
 ==============================
 
 Clone this repository, change into the cloned directory and install dependencies.
